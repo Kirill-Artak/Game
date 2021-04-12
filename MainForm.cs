@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -49,22 +50,34 @@ namespace Game
             {
                 Controls.Remove(table);
                 
-                Paint += OnPaint;
+                Paint += RunGame;
             };
+            
             SettingsButton.Click += (sender, args) => Controls.Remove(table);
+            
             ExitButton.Click += (sender, args) => Application.Exit();
             
             Controls.Add(table);
         }
 
-        private void OnPaint(object sender, PaintEventArgs e)
+        private void RunGame(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
-            g.DrawImage(Image.FromFile(@"C:\Users\razzerone\Desktop\рисунки\playerSource.bmp"), new Point(0, 0));
+            
+            g.DrawImage(Image.FromFile(@"C:\Users\razzerone\Desktop\рисунки\player2.bmp"), new Point(100, 500));
+            BackgroundImage = backgroundImage;
+            
+            
         }
 
         private static TableLayoutPanel MenuBuilder()
         {
+            var menuControls = new List<Button>();
+            
+            menuControls.Add(NewGameButton);
+            menuControls.Add(SettingsButton);
+            menuControls.Add(ExitButton);
+            
             var table = new TableLayoutPanel();
             
             table.BackgroundImage = backgroundImage;
@@ -83,10 +96,19 @@ namespace Game
             var placeHolder = new Panel() { BackColor = Color.Transparent };
             
             table.Controls.Add(placeHolder, 1, 0);
-            table.Controls.Add(NewGameButton, 0, 1);
-            table.Controls.Add(SettingsButton, 0, 2);
-            table.Controls.Add(ExitButton, 0, 3);
+            for (int i = 0; i < 3; i++)
+            {
+                var button = i;
 
+                menuControls[button].GotFocus += (sender, args) => menuControls[button].BackColor = Color.DarkSlateBlue;
+                menuControls[button].MouseEnter += (sender, args) => menuControls[button].BackColor = Color.DarkSlateBlue;
+
+                menuControls[button].LostFocus += (sender, args) => menuControls[button].BackColor = DefaultBackColor;
+                menuControls[button].MouseLeave += (sender, args) => menuControls[button].BackColor = DefaultBackColor;
+                
+                table.Controls.Add(menuControls[button], 0, button + 1);
+            }
+            
             return table;
         }
     }
