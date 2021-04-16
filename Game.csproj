@@ -39,6 +39,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="ILevel.cs" />
         <Compile Include="IWeapon.cs" />
         <Compile Include="Player.cs" />
         <Compile Include="Program.cs" />
