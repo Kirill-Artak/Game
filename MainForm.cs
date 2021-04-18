@@ -10,7 +10,7 @@ namespace Game
     {
         private static Size menuButtonSize = new Size(180, 60);
         private static Font menuButtonFont = new Font("Arial", 16);
-        private static Image backgroundImage = Image.FromFile(@"C:\Users\razzerone\Desktop\рисунки\a.png");
+        private static Image backgroundImage = Image.FromFile(@"..\..\assets\a.png");
 
         private static TableLayoutPanel MenuTable;
         private static TableLayoutPanel SettingsTable;
@@ -50,7 +50,7 @@ namespace Game
         {
             var g = e.Graphics;
             
-            g.DrawImage(Image.FromFile(@"C:\Users\razzerone\Desktop\рисунки\player2.bmp"), new Point(100, 500));
+            g.DrawImage(Image.FromFile(@"..\..\assets\playerSource.bmp"), new Point(100, 500));
             BackgroundImage = backgroundImage;
             
             
