@@ -1,4 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Game
 {
@@ -16,31 +20,32 @@ namespace Game
             Level = level;
         }
         
-        public void MoveRight()
-        {
-            if (Level.CheckCoordinate(X + 5, Y))
-                X += 5;
-        }
+        public void MoveRight() => Move(() => X += 1);
 
-        public void MoveLeft()
-        {
-            if (Level.CheckCoordinate(X - 5, Y))
-                X -= 5;
-        }
-
+        public void MoveLeft() => Move(() => X -= 1);
+        
         public void Jump()
         {
-            MoveUp();
-            MoveDown();
+            var task = Move(() =>
+            {
+                Y -= 8;
+                Thread.Sleep(10);
+            });
+            task.ContinueWith(task1 => Y -= 8);
+        }
+        
+        private Task Move(Action action)
+        {
+            var task = new Task(action);
+            task.Start();
+            return task;
         }
 
-        private void MoveUp()
+        private Task MoveUp()
         {
-            for (int i = 0; i < 10; i++)
-                if (Level.CheckCoordinate(X, Y + 5))
-                    Y += 5;
-                else
-                    return;
+            var task = new Task(() => X -= 1);
+            task.Start();
+            return task;
         }
 
         private void MoveDown()
