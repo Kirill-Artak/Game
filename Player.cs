@@ -15,7 +15,12 @@ namespace Game
         
         public ILevel Level { get; }
 
-        private Player(ILevel level)
+        public Player()
+        {
+            Level = null;
+        }
+        
+        public Player(ILevel level)
         {
             Level = level;
         }
