@@ -35,7 +35,12 @@ namespace Game
             );
 
             SettingsTable = MenuBuilder(
-                CheckBoxBuilder("Полный экран", (s, e) => {}),
+                CheckBoxBuilder(
+                    "Полный экран", 
+                    (s, e) => 
+                        WindowState = ((CheckBox)s).Checked 
+                            ? FormWindowState.Maximized 
+                            : FormWindowState.Normal),
                 TrackBarBuilder("Громкость", (s, e) => {}),
                 ButtonBuilder("Назад", (s, e) =>
                 {
