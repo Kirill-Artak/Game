@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms.VisualStyles;
 
 namespace Game
 {
@@ -21,6 +22,8 @@ namespace Game
             Size = new Size(1280, 720);
             FormBorderStyle = FormBorderStyle.FixedDialog;
 
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
             MenuTable = MenuBuilder(
                 ButtonBuilder("Новая игра", (s, e) => {
                     Controls.Remove(MenuTable);
@@ -37,10 +40,16 @@ namespace Game
             SettingsTable = MenuBuilder(
                 CheckBoxBuilder(
                     "Полный экран", 
-                    (s, e) => 
-                        WindowState = ((CheckBox)s).Checked 
-                            ? FormWindowState.Maximized 
-                            : FormWindowState.Normal),
+                    (s, e) =>
+                    {
+                        WindowState = ((CheckBox) s).Checked
+                            ? FormWindowState.Maximized
+                            : FormWindowState.Normal;
+
+                        FormBorderStyle = ((CheckBox) s).Checked
+                                ? FormBorderStyle.None
+                                : FormBorderStyle.FixedDialog;
+                    }),
                 TrackBarBuilder("Громкость", (s, e) => {}),
                 ButtonBuilder("Назад", (s, e) =>
                 {
@@ -49,6 +58,16 @@ namespace Game
                 }));
             
             Controls.Add(MenuTable);
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;
+                return handleParam;
+            }
         }
 
         private void RunGame(object sender, PaintEventArgs e)

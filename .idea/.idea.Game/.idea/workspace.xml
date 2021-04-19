@@ -22,15 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bd6853c-5075-429a-8519-1b251caab1ad" name="Default Changelist" comment="added correctly working async player motion">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02_[Default_Changelist]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02_[Default_Changelist]1/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Game.sln.DotSettings.user" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/contentModel.xml" afterDir="false" />
+    <list default="true" id="6bd6853c-5075-429a-8519-1b251caab1ad" name="Default Changelist" comment="added fall correctly">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_04_2021_1_54__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_04_2021_1_54__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainForm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainForm.cs" afterDir="false" />
     </list>
@@ -114,21 +109,21 @@
     <option name="LAST_COMMIT_MESSAGE" value="added correctly working async player motion" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1618814153496">
+    <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1618816061235">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1618814153496" />
-    <state width="1237" height="163" key="GridCell.Tab.0.center" timestamp="1618814153496">
+    <state width="1237" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1618816061235" />
+    <state width="1237" height="163" key="GridCell.Tab.0.center" timestamp="1618816061235">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1618814153496" />
-    <state width="1237" height="163" key="GridCell.Tab.0.left" timestamp="1618814153495">
+    <state width="1237" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1618816061235" />
+    <state width="1237" height="163" key="GridCell.Tab.0.left" timestamp="1618816061235">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1618814153495" />
-    <state width="1237" height="163" key="GridCell.Tab.0.right" timestamp="1618814153496">
+    <state width="1237" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1618816061235" />
+    <state width="1237" height="163" key="GridCell.Tab.0.right" timestamp="1618816061235">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1618814153496" />
+    <state width="1237" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1618816061235" />
   </component>
 </project>
