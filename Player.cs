@@ -63,7 +63,7 @@ namespace Game
                 var force = 11;
                 while (Level.CheckDown(x, y))
                 {
-                    Interlocked.Add(ref y, force);
+                    Interlocked.Decrement(ref y);
                     if (force >= 3)
                         force -= 2;
                     Task.Delay(force);
