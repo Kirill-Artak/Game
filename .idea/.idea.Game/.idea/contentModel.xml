@@ -5,8 +5,13 @@
       <e p="bin" t="ExcludeRecursive" />
       <e p="Game.csproj" t="IncludeRecursive" />
       <e p="Game.sln" t="IncludeFlat" />
+      <e p="ILevel.cs" t="Include" />
+      <e p="IWeapon.cs" t="Include" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="packages" t="ExcludeRecursive" />
+      <e p="packages.config" t="Include" />
+      <e p="Player.cs" t="Include" />
+      <e p="PlayerTests.cs" t="Include" />
       <e p="Program.cs" t="Include" />
       <e p="Properties" t="Include">
         <e p="AssemblyInfo.cs" t="Include" />

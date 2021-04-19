@@ -9,11 +9,13 @@ namespace Game
     public class Player
     {
         public int Health { get; private set; }
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public int X => x;
+        public int Y => y;
         public IWeapon Weapon { get; private set; }
-        
         public ILevel Level { get; }
+
+        private int x;
+        private int y;
 
         public Player()
         {
@@ -24,47 +26,56 @@ namespace Game
         {
             Level = level;
         }
-        
-        public void MoveRight() => Move(() => X += 1);
 
-        public void MoveLeft() => Move(() => X -= 1);
+        public void MoveRight() => Move(() =>
+        {
+            if (Level.CheckRight(x, y))
+                Interlocked.Increment(ref x);
+            Fall();
+        });
+
+        public void MoveLeft() => Move(() =>
+        {
+            if (Level.CheckLeft(x, y))
+                Interlocked.Decrement(ref x);
+            Fall();
+        });
         
         public void Jump()
         {
             var task = Move(() =>
             {
-                Y -= 8;
-                Thread.Sleep(10);
+                var force = 8;
+                while (Level.CheckUp(x, y) && force > 0)
+                {
+                    Interlocked.Add(ref y, -force);
+                    force -= 2;
+                    Task.Delay(10);
+                }
             });
-            task.ContinueWith(task1 => Y -= 8);
-        }
-        
-        private Task Move(Action action)
-        {
-            var task = new Task(action);
-            task.Start();
-            return task;
+            task.ContinueWith(task1 => Fall());
         }
 
-        private Task MoveUp()
+        public void Fall()
         {
-            var task = new Task(() => X -= 1);
-            task.Start();
-            return task;
+            var task = Move(() =>
+            {
+                var force = 11;
+                while (Level.CheckDown(x, y))
+                {
+                    Interlocked.Add(ref y, force);
+                    if (force >= 3)
+                        force -= 2;
+                    Task.Delay(force);
+                }
+            });
         }
 
-        private void MoveDown()
-        {
-            for (int i = 0; i < 10; i++)
-                if (Level.CheckCoordinate(X, Y - 5))
-                    Y -= 5;
-                else
-                    return;
-        }
+        private Task Move(Action action) => Task.Run(action);
 
         public void Damage()
         {
-            
+            throw new NotImplementedException("пока не умеет пиздиться");
         }
     }
 }
