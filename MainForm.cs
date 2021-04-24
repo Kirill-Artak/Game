@@ -4,14 +4,17 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.VisualStyles;
+using System.Windows.Media;
 
 namespace Game
 {
     public class MainForm : Form
     {
         private static Size menuButtonSize = new Size(180, 60);
-        private static Font menuButtonFont = new Font("Arial", 16);
+        private static Font menuButtonFont = new Font("Arial", 14);
         private static Image backgroundImage = Image.FromFile(@"..\..\assets\a.png");
+        
+        private static MediaPlayer mediaPlayer = new MediaPlayer();
 
         private static TableLayoutPanel MenuTable;
         private static TableLayoutPanel SettingsTable;
@@ -28,6 +31,10 @@ namespace Game
                 ButtonBuilder("Новая игра", (s, e) => {
                     Controls.Remove(MenuTable);
                     Paint += RunGame;
+                    
+                    mediaPlayer.Stop();
+                    mediaPlayer.Open(new Uri(@"C:\Users\razzerone\Desktop\game.mp3"));
+                    mediaPlayer.Play();
                 }),
                 ButtonBuilder("Настройки", (s, e) =>
                 {
@@ -42,15 +49,18 @@ namespace Game
                     "Полный экран", 
                     (s, e) =>
                     {
+                        TopMost = true;
+                        FormBorderStyle = ((CheckBox) s).Checked
+                            ? FormBorderStyle.None
+                            : FormBorderStyle.FixedDialog;
                         WindowState = ((CheckBox) s).Checked
                             ? FormWindowState.Maximized
                             : FormWindowState.Normal;
-
-                        FormBorderStyle = ((CheckBox) s).Checked
-                                ? FormBorderStyle.None
-                                : FormBorderStyle.FixedDialog;
                     }),
-                TrackBarBuilder("Громкость", (s, e) => {}),
+                TrackBarBuilder("Громкость", (s, e) =>
+                {
+                    mediaPlayer.Volume = ((TrackBar) s).Value / 100.0;
+                }),
                 ButtonBuilder("Назад", (s, e) =>
                 {
                     Controls.Remove(SettingsTable);
@@ -58,6 +68,10 @@ namespace Game
                 }));
             
             Controls.Add(MenuTable);
+            
+            mediaPlayer.Open(new Uri(@"C:\Users\razzerone\Desktop\menu.mp3"));
+            mediaPlayer.Volume = 0.5;
+            mediaPlayer.Play();
         }
 
         protected override CreateParams CreateParams
@@ -97,7 +111,7 @@ namespace Game
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15));
 
-            var placeHolder = new Panel() { BackColor = Color.Transparent };
+            var placeHolder = new Panel() { BackColor = System.Drawing.Color.Transparent };
             
             table.Controls.Add(placeHolder, 1, 0);
             
@@ -114,17 +128,17 @@ namespace Game
                 Text = name,
                 Size = menuButtonSize,
                 Font = menuButtonFont,
-                ForeColor = Color.DarkGoldenrod,
-                BackColor = Color.Transparent,
+                ForeColor = System.Drawing.Color.DarkGoldenrod,
+                BackColor = System.Drawing.Color.Transparent,
                 Anchor = AnchorStyles.Right,
                 FlatStyle = FlatStyle.Flat,
             };
             
-            button.GotFocus += (sender, args) => button.BackColor = Color.DarkSlateBlue;
-            button.MouseEnter += (sender, args) => button.BackColor = Color.DarkSlateBlue;
+            button.GotFocus += (sender, args) => button.BackColor = System.Drawing.Color.DarkSlateBlue;
+            button.MouseEnter += (sender, args) => button.BackColor = System.Drawing.Color.DarkSlateBlue;
 
-            button.LostFocus += (sender, args) => button.BackColor = Color.Transparent;
-            button.MouseLeave += (sender, args) => button.BackColor = Color.Transparent;
+            button.LostFocus += (sender, args) => button.BackColor = System.Drawing.Color.Transparent;
+            button.MouseLeave += (sender, args) => button.BackColor = System.Drawing.Color.Transparent;
 
             button.Click += action;
 
@@ -142,8 +156,9 @@ namespace Game
                 //BackColor = Color.Black,
                 //ForeColor = Color.DarkGoldenrod,
                 Minimum = 0,
-                Maximum = 4,
-                TickFrequency = 1,
+                Maximum = 100,
+                TickFrequency = 25,
+                Value = 50,
             };
             
             trackBar.Scroll += scroll;
@@ -158,18 +173,18 @@ namespace Game
                 Text = name,
                 Size = menuButtonSize,
                 Font = menuButtonFont,
-                ForeColor = Color.DarkGoldenrod,
+                ForeColor = System.Drawing.Color.DarkGoldenrod,
                 FlatStyle = FlatStyle.Flat,
                 Anchor = AnchorStyles.Right,
-                BackColor = Color.Transparent,
+                BackColor = System.Drawing.Color.Transparent,
                 Checked = false,
             };
             
-            checkBox.GotFocus += (sender, args) => checkBox.BackColor = Color.DarkSlateBlue;
-            checkBox.MouseEnter += (sender, args) => checkBox.BackColor = Color.DarkSlateBlue;
+            checkBox.GotFocus += (sender, args) => checkBox.BackColor = System.Drawing.Color.DarkSlateBlue;
+            checkBox.MouseEnter += (sender, args) => checkBox.BackColor = System.Drawing.Color.DarkSlateBlue;
 
-            checkBox.LostFocus += (sender, args) => checkBox.BackColor = Color.Transparent;
-            checkBox.MouseLeave += (sender, args) => checkBox.BackColor = Color.Transparent;
+            checkBox.LostFocus += (sender, args) => checkBox.BackColor = System.Drawing.Color.Transparent;
+            checkBox.MouseLeave += (sender, args) => checkBox.BackColor = System.Drawing.Color.Transparent;
 
             checkBox.CheckedChanged += checkedChanged;
 

@@ -22,11 +22,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bd6853c-5075-429a-8519-1b251caab1ad" name="Default Changelist" comment="added fall correctly">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_04_2021_1_54__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_04_2021_1_54__Default_Changelist_.xml" afterDir="false" />
+    <list default="true" id="6bd6853c-5075-429a-8519-1b251caab1ad" name="Default Changelist" comment="убрали мерцания">
+      <change afterPath="$PROJECT_DIR$/assets/full.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_04_2021_1_54_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_04_2021_1_54__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Game.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainForm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainForm.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,10 +58,22 @@
       </list>
     </option>
   </component>
+  <component name="ProjectId" id="1rctJsEtwubB5P9lTcEXegJghLF" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
     <configuration name="Game" type="DotNetProject" factoryName=".NET Project">
@@ -79,6 +95,7 @@
       </method>
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task id="LOCAL-00001" summary="added correctly working async player motion">
       <created>1618813782624</created>
@@ -87,8 +104,26 @@
       <option name="project" value="LOCAL" />
       <updated>1618813782624</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="убрали мерцания">
+      <created>1618816257265</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1618816257265</updated>
+    </task>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6bd6853c-5075-429a-8519-1b251caab1ad" name="Default Changelist" comment="убрали мерцания" />
+      <created>1619287142227</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619287142227</updated>
+      <workItem from="1619287170300" duration="4723000" />
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
@@ -106,24 +141,89 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added correctly working async player motion" />
-    <option name="LAST_COMMIT_MESSAGE" value="added correctly working async player motion" />
+    <MESSAGE value="убрали мерцания" />
+    <option name="LAST_COMMIT_MESSAGE" value="убрали мерцания" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1618816061235">
+    <state width="1237" height="64" key="GridCell.Tab.0.bottom" timestamp="1619291585796">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1618816061235" />
-    <state width="1237" height="163" key="GridCell.Tab.0.center" timestamp="1618816061235">
+    <state width="1237" height="64" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1619291585796" />
+    <state width="1237" height="64" key="GridCell.Tab.0.center" timestamp="1619291585795">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1618816061235" />
-    <state width="1237" height="163" key="GridCell.Tab.0.left" timestamp="1618816061235">
+    <state width="1237" height="64" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1619291585795" />
+    <state width="1237" height="64" key="GridCell.Tab.0.left" timestamp="1619291585794">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1618816061235" />
-    <state width="1237" height="163" key="GridCell.Tab.0.right" timestamp="1618816061235">
+    <state width="1237" height="64" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1619291585794" />
+    <state width="1237" height="64" key="GridCell.Tab.0.right" timestamp="1619291585795">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1618816061235" />
+    <state width="1237" height="64" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1619291585795" />
+    <state width="1237" height="231" key="GridCell.Tab.1.bottom" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.1.center" timestamp="1618816292123">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1618816292123" />
+    <state width="1237" height="231" key="GridCell.Tab.1.left" timestamp="1618816292123">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1618816292123" />
+    <state width="1237" height="231" key="GridCell.Tab.1.right" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.2.bottom" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.2.bottom/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.2.center" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.2.center/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.2.left" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.2.left/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.2.right" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.2.right/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.3.bottom" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.3.bottom/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.3.center" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.3.center/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.3.left" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.3.left/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.3.right" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.3.right/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.4.bottom" timestamp="1618816292126">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.4.bottom/0.0.1280.680@0.0.1280.680" timestamp="1618816292126" />
+    <state width="1237" height="231" key="GridCell.Tab.4.center" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.4.center/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.4.left" timestamp="1618816292124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.4.left/0.0.1280.680@0.0.1280.680" timestamp="1618816292124" />
+    <state width="1237" height="231" key="GridCell.Tab.4.right" timestamp="1618816292125">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="231" key="GridCell.Tab.4.right/0.0.1280.680@0.0.1280.680" timestamp="1618816292125" />
   </component>
 </project>
