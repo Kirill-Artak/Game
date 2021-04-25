@@ -22,16 +22,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bd6853c-5075-429a-8519-1b251caab1ad" name="Default Changelist" comment="убрали мерцания">
-      <change afterPath="$PROJECT_DIR$/assets/full.png" afterDir="false" />
+    <list default="true" id="6bd6853c-5075-429a-8519-1b251caab1ad" name="Default Changelist" comment="Добавлен звук в меню и игре">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_04_2021_1_54_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_04_2021_1_54__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_04_2021_10_02__Default_Changelist_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Game.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Game.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainForm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainForm.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/full.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,9 +113,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1619287142227</updated>
-      <workItem from="1619287170300" duration="4723000" />
+      <workItem from="1619287170300" duration="5329000" />
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Добавлен звук в меню и игре">
+      <created>1619292178884</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1619292178884</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,25 +145,26 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added correctly working async player motion" />
     <MESSAGE value="убрали мерцания" />
-    <option name="LAST_COMMIT_MESSAGE" value="убрали мерцания" />
+    <MESSAGE value="Добавлен звук в меню и игре" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлен звук в меню и игре" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1237" height="64" key="GridCell.Tab.0.bottom" timestamp="1619291585796">
+    <state width="1237" height="64" key="GridCell.Tab.0.bottom" timestamp="1619352639336">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="64" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1619291585796" />
-    <state width="1237" height="64" key="GridCell.Tab.0.center" timestamp="1619291585795">
+    <state width="1237" height="64" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1619352639336" />
+    <state width="1237" height="64" key="GridCell.Tab.0.center" timestamp="1619352639336">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="64" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1619291585795" />
-    <state width="1237" height="64" key="GridCell.Tab.0.left" timestamp="1619291585794">
+    <state width="1237" height="64" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1619352639336" />
+    <state width="1237" height="64" key="GridCell.Tab.0.left" timestamp="1619352639335">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="64" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1619291585794" />
-    <state width="1237" height="64" key="GridCell.Tab.0.right" timestamp="1619291585795">
+    <state width="1237" height="64" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1619352639335" />
+    <state width="1237" height="64" key="GridCell.Tab.0.right" timestamp="1619352639336">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="64" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1619291585795" />
+    <state width="1237" height="64" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1619352639336" />
     <state width="1237" height="231" key="GridCell.Tab.1.bottom" timestamp="1618816292124">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

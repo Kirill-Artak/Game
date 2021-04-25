@@ -33,7 +33,7 @@ namespace Game
                     Paint += RunGame;
                     
                     mediaPlayer.Stop();
-                    mediaPlayer.Open(new Uri(@"C:\Users\razzerone\Desktop\game.mp3"));
+                    mediaPlayer.Open(new Uri(@"..\..\assets\game.mp3"));
                     mediaPlayer.Play();
                 }),
                 ButtonBuilder("Настройки", (s, e) =>
@@ -69,7 +69,7 @@ namespace Game
             
             Controls.Add(MenuTable);
             
-            mediaPlayer.Open(new Uri(@"C:\Users\razzerone\Desktop\menu.mp3"));
+            mediaPlayer.Open(new Uri(@"..\..\assets\menu.mp3"));
             mediaPlayer.Volume = 0.5;
             mediaPlayer.Play();
         }

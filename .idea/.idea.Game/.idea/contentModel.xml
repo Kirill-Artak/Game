@@ -4,7 +4,8 @@
     <e p="C:\UrFU\game\game" t="IncludeRecursive">
       <e p="Assets" t="Include">
         <e p="a.png" t="Include" />
-        <e p="full.png" t="Include" />
+        <e p="game.mp3" t="Include" />
+        <e p="menu.mp3" t="Include" />
         <e p="playerSource.bmp" t="Include" />
       </e>
       <e p="bin" t="ExcludeRecursive" />
