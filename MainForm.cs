@@ -10,31 +10,43 @@ namespace Game
 {
     public class MainForm : Form
     {
-        private static Size menuButtonSize = new Size(180, 60);
-        private static Font menuButtonFont = new Font("Arial", 14);
-        private static Image backgroundImage = Image.FromFile(@"..\..\assets\a.png");
+        private Size menuButtonSize = new Size(180, 60);
+        private Font menuButtonFont = new Font("Arial", 14);
+        private Image backgroundImage = Image.FromFile(@"..\..\assets\a.png");
         
-        private static MediaPlayer mediaPlayer = new MediaPlayer();
+        private MediaPlayer mediaPlayer = new MediaPlayer();
+        private Timer timer = new Timer();
 
-        private static TableLayoutPanel MenuTable;
-        private static TableLayoutPanel SettingsTable;
-        private static TableLayoutPanel PauseTable;
+        private TableLayoutPanel MenuTable;
+        private TableLayoutPanel SettingsTable;
+        private TableLayoutPanel PauseTable;
         
         public MainForm()
         {
             Size = new Size(1280, 720);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            KeyPreview = true;
 
-            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer 
+                     | ControlStyles.AllPaintingInWmPaint 
+                     | ControlStyles.UserPaint, true);
+            
+            UpdateStyles();
+
+            timer.Interval = 5;
+            timer.Tick += (sender, args) => Invalidate();
 
             MenuTable = MenuBuilder(
                 ButtonBuilder("Новая игра", (s, e) => {
                     Controls.Remove(MenuTable);
-                    Paint += RunGame;
+                    //Paint += RunGame;
                     
-                    mediaPlayer.Stop();
-                    mediaPlayer.Open(new Uri(@"..\..\assets\game.mp3", UriKind.Relative));
-                    mediaPlayer.Play();
+                    //mediaPlayer.Stop();
+                    //mediaPlayer.Open(new Uri(@"..\..\assets\game.mp3", UriKind.Relative));
+                    //mediaPlayer.Play();
+                    
+                    RunGame();
+                    
                 }),
                 ButtonBuilder("Настройки", (s, e) =>
                 {
@@ -83,18 +95,20 @@ namespace Game
                 return handleParam;
             }
         }
+        
+        
 
-        private void RunGame(object sender, PaintEventArgs e)
+        private void RunGame()
         {
-            var g = e.Graphics;
+            timer.Start();
             
-            g.DrawImage(Image.FromFile(@"..\..\assets\playerSource.bmp"), new Point(100, 500));
-            BackgroundImage = backgroundImage;
-            
-            
+            var engine = new Engine(Invalidate, () => { });
+
+            KeyDown += engine.KeyPressed;
+            Paint += engine.Paint;
         }
 
-        private static TableLayoutPanel MenuBuilder(params Control[] buttons)
+        private TableLayoutPanel MenuBuilder(params Control[] buttons)
         {
             var table = new TableLayoutPanel();
             
@@ -121,7 +135,7 @@ namespace Game
             return table;
         }
         
-        private static Button ButtonBuilder(string name, EventHandler action)
+        private Button ButtonBuilder(string name, EventHandler action)
         {
             var button = new Button()
             {
@@ -145,7 +159,7 @@ namespace Game
             return button;
         }
 
-        private static TrackBar TrackBarBuilder(string name, EventHandler scroll)
+        private TrackBar TrackBarBuilder(string name, EventHandler scroll)
         {
             var trackBar = new TrackBar()
             {
@@ -166,7 +180,7 @@ namespace Game
             return trackBar;
         }
 
-        private static CheckBox CheckBoxBuilder(string name, EventHandler checkedChanged)
+        private CheckBox CheckBoxBuilder(string name, EventHandler checkedChanged)
         {
             var checkBox = new CheckBox()
             {
