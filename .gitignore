@@ -1,37 +1,4 @@
 
-Skip to content
-Pull requests
-Issues
-Marketplace
-Explore
-@razzerone
-Kirill-Artak /
-Game
-
-0
-0
-
-    0
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-
-    Settings
-
-Game/.gitignore
-@razzerone
-razzerone Исправлен гитигнор
-Latest commit 5ed4300 2 minutes ago
-History
-1 contributor
-87 lines (67 sloc) 1.79 KB
-
 # Created by https://www.toptal.com/developers/gitignore/api/rider
 # Edit at https://www.toptal.com/developers/gitignore?templates=rider
 
@@ -118,19 +85,3 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea/.idea.Game/.idea/workspace.xml
 .idea/
-
-    © 2021 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
-
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
-Loading complete
