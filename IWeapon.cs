@@ -2,6 +2,9 @@
 {
     public interface IWeapon
     {
-        void Use();
+        int BulletCount { get; set; }
+        ILevel Level { get; }
+        void Use(Side side);
+        void PickupBullet();
     }
 }

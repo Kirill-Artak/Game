@@ -50,6 +50,7 @@
         <Compile Include="PlayerTests.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Side.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

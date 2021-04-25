@@ -22,8 +22,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59f8597d-4e11-4c1c-b86f-1e99843b8d8e" name="Default Changelist" comment="added fullscreen">
+    <list default="true" id="59f8597d-4e11-4c1c-b86f-1e99843b8d8e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Side.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Game.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IWeapon.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Player.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,6 +47,10 @@
       <list>
         <option value="$PROJECT_DIR$/ILevel.cs" />
         <option value="$PROJECT_DIR$/PlayerTests.cs" />
+        <option value="$PROJECT_DIR$/IBullet.cs" />
+        <option value="$PROJECT_DIR$/Sides.cs" />
+        <option value="$PROJECT_DIR$/Side.cs" />
+        <option value="$PROJECT_DIR$/IWeapon.cs" />
         <option value="$PROJECT_DIR$/Player.cs" />
       </list>
     </option>
