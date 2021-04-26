@@ -12,10 +12,11 @@ namespace Game
     {
         private Size menuButtonSize = new Size(180, 60);
         private Font menuButtonFont = new Font("Arial", 14);
-        private Image backgroundImage = Image.FromFile(@"..\..\assets\a.png");
+        private Image backgroundImage = Image.FromFile(@"assets\a.png");
         
-        private MediaPlayer mediaPlayer = new MediaPlayer();
         private Timer timer = new Timer();
+        private MediaPlayer mediaPlayer = new MediaPlayer();
+        private Engine engine;
 
         private TableLayoutPanel MenuTable;
         private TableLayoutPanel SettingsTable;
@@ -32,21 +33,17 @@ namespace Game
                      | ControlStyles.UserPaint, true);
             
             UpdateStyles();
-
-            timer.Interval = 5;
+            
+            timer.Interval = 10;
             timer.Tick += (sender, args) => Invalidate();
+
 
             MenuTable = MenuBuilder(
                 ButtonBuilder("Новая игра", (s, e) => {
                     Controls.Remove(MenuTable);
-                    //Paint += RunGame;
-                    
-                    //mediaPlayer.Stop();
-                    //mediaPlayer.Open(new Uri(@"..\..\assets\game.mp3", UriKind.Relative));
-                    //mediaPlayer.Play();
+                    mediaPlayer.Stop();
                     
                     RunGame();
-                    
                 }),
                 ButtonBuilder("Настройки", (s, e) =>
                 {
@@ -81,7 +78,7 @@ namespace Game
             
             Controls.Add(MenuTable);
             
-            mediaPlayer.Open(new Uri(@"..\..\assets\menu.mp3", UriKind.Relative));
+            mediaPlayer.Open(new Uri(@"assets\menu.mp3", UriKind.Relative));
             mediaPlayer.Volume = 0.5;
             mediaPlayer.Play();
         }
@@ -100,12 +97,13 @@ namespace Game
 
         private void RunGame()
         {
-            timer.Start();
-            
-            var engine = new Engine(Invalidate, () => { });
+            engine = new Engine(timer, mediaPlayer, () => { });
 
-            KeyDown += engine.KeyPressed;
+            KeyDown += (o, e) => engine.KeyPressed.Invoke(o, e);
             Paint += engine.Paint;
+            
+            engine.StartGame();
+            Focus();
         }
 
         private TableLayoutPanel MenuBuilder(params Control[] buttons)

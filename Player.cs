@@ -34,11 +34,11 @@ namespace Game
 
         public void MoveRight() => Move(() =>
         {
-            //Interlocked.Exchange(ref side, 1);
-            //if (Level.CheckRight(x, y))
+            Interlocked.Exchange(ref side, 1);
+            if (Level.CheckRight(x, y))
                 Interlocked.Increment(ref x);
-            //if (Level.CheckDown(x, y))
-            //    Fall();
+            if (Level.CheckDown(x, y))
+                Fall();
         });
 
         public void MoveLeft() => Move(() =>
