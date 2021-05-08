@@ -11,7 +11,7 @@ namespace Game
         [Test]
         public void MoveManyTimes()
         {
-            var player = new Player(new TestLevel());
+            var player = new Player(new TestLevel(-10, 10, -10));
             
             player.MoveRight();
             
@@ -31,29 +31,6 @@ namespace Game
             Task.WaitAll(tasks.ToArray());
             
             Assert.AreEqual(1, player.X);
-        }
-    }
-
-    class TestLevel : ILevel
-    {
-        public bool CheckRight(int x, int y)
-        {
-            return true;
-        }
-
-        public bool CheckLeft(int x, int y)
-        {
-            return true;
-        }
-
-        public bool CheckUp(int x, int y)
-        {
-            return true;
-        }
-
-        public bool CheckDown(int x, int y)
-        {
-            return y > 0;
         }
     }
 }

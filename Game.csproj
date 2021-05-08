@@ -51,6 +51,8 @@
     <ItemGroup>
         <Compile Include="Engine.cs" />
         <Compile Include="MainForm.cs" />
+        <Compile Include="MovingController.cs" />
+        <Compile Include="Movement.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="ILevel.cs" />
@@ -58,6 +60,7 @@
         <Compile Include="Player.cs" />
         <Compile Include="PlayerTests.cs" />
         <Compile Include="Side.cs" />
+        <Compile Include="TestLevel.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="packages.config" />

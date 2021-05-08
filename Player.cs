@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Game
 {
@@ -15,7 +16,8 @@ namespace Game
         public IWeapon Weapon { get; private set; }
         public ILevel Level { get; }
 
-        public bool IsFalling => isFalling;
+        public bool IsFalling { get; private set; }
+        public bool IsJumping { get; private set; }
 
         private readonly Action onDeathAction;
 
@@ -24,7 +26,7 @@ namespace Game
         private int y;
         private int side = 1;
 
-        private bool isFalling;
+        
 
         public Player(ILevel level = null, Action onDeathAction = null)
         {
@@ -32,56 +34,65 @@ namespace Game
             this.onDeathAction = onDeathAction;
         }
 
-        public void MoveRight() => Move(() =>
+        public void SetCoordinate(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        public Task MoveRight() => new Task(() =>
         {
             Interlocked.Exchange(ref side, 1);
             if (Level.CheckRight(x, y))
-                Interlocked.Increment(ref x);
-            if (Level.CheckDown(x, y))
-                Fall();
+                Interlocked.Add(ref x, 4);
+            //if (Level.CheckDown(x, y))
+            //    Fall();
         });
 
-        public void MoveLeft() => Move(() =>
+        public Task MoveLeft() => new Task(() =>
         {
             Interlocked.Exchange(ref side, -1);
             if (Level.CheckLeft(x, y))
-                Interlocked.Decrement(ref x);
-            if (Level.CheckDown(x, y))
-                Fall();
+                Interlocked.Add(ref x, -4);
+            //if (Level.CheckDown(x, y))
+            //    Fall();
         });
         
-        public void Jump()
+        public Task Jump() => new Task(() =>
         {
-            Move(() =>
+            if (IsFalling) return;
+            if (IsJumping) return;
+            
+            IsJumping = true;
+            
+            var force = 16;
+            while (force > 0)
             {
-                var force = 8;
-                while (Level.CheckUp(x, y) && force > 0)
-                {
-                    Interlocked.Add(ref y, -force);
-                    force -= 2;
-                    Task.Delay(10);
-                }
-            }).ContinueWith(task1 => Fall());
-        }
+                Interlocked.Add(ref y, -force);
+                force -= 1;
+                Thread.Sleep(10);
+            }
 
-        public void Fall()
+            IsJumping = false;
+        });
+
+        public Task Fall() => new Task(() =>
         {
-            Move(() =>
+            if (IsFalling) return;
+            
+            var force = 13;
+            while (Level.CheckDown(x, y))
             {
-                var force = 11;
-                while (Level.CheckDown(x, y))
-                {
-                    isFalling = true;
-                    Interlocked.Decrement(ref y);
-                    if (force >= 3)
-                        force -= 2;
-                    Task.Delay(force);
-                }
+                IsFalling = true;
+                Interlocked.Add(ref y, 4);
+                if (force > 1)
+                    force--;
+                Thread.Sleep(force);
+            }
 
-                isFalling = false;
-            });
-        }
-        
+            IsFalling = false;
+        });
+
         public void GetDamage() => Task.Run(() =>
         {
             Interlocked.Decrement(ref health);

@@ -79,7 +79,7 @@ namespace Game
             Controls.Add(MenuTable);
             
             mediaPlayer.Open(new Uri(@"assets\menu.mp3", UriKind.Relative));
-            mediaPlayer.Volume = 0.5;
+            mediaPlayer.Volume = 0.1;
             mediaPlayer.Play();
         }
 
@@ -100,6 +100,7 @@ namespace Game
             engine = new Engine(timer, mediaPlayer, () => { });
 
             KeyDown += (o, e) => engine.KeyPressed.Invoke(o, e);
+            KeyUp += (sender, args) => engine.KeyUnpressed.Invoke(sender, args);
             Paint += engine.Paint;
             
             engine.StartGame();
