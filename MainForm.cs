@@ -21,7 +21,7 @@ namespace Game
         private TableLayoutPanel MenuTable;
         private TableLayoutPanel SettingsTable;
         private TableLayoutPanel PauseTable;
-        
+
         public MainForm()
         {
             Size = new Size(1280, 720);
@@ -34,7 +34,7 @@ namespace Game
             
             UpdateStyles();
             
-            timer.Interval = 10;
+            timer.Interval = 20;
             timer.Tick += (sender, args) => Invalidate();
 
 
@@ -92,16 +92,21 @@ namespace Game
                 return handleParam;
             }
         }
+
+        public void ChangeBackground(string source)
+        {
+            BackgroundImage = Image.FromFile(source);
+        }
         
         
 
         private void RunGame()
         {
-            engine = new Engine(timer, mediaPlayer, () => { });
+            engine = new Engine(timer, mediaPlayer, () => { }, ChangeBackground);
 
             KeyDown += (o, e) => engine.KeyPressed.Invoke(o, e);
             KeyUp += (sender, args) => engine.KeyUnpressed.Invoke(sender, args);
-            Paint += engine.Paint;
+            Paint += (sender, args) => engine.Paint.Invoke(sender, args);
             
             engine.StartGame();
             Focus();

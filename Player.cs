@@ -18,6 +18,9 @@ namespace Game
 
         public bool IsFalling { get; private set; }
         public bool IsJumping { get; private set; }
+        
+        public int Height { get; }
+        public int Width { get; }
 
         private readonly Action onDeathAction;
 
@@ -30,6 +33,9 @@ namespace Game
 
         public Player(ILevel level = null, Action onDeathAction = null)
         {
+            Height = 54;
+            Width = 38;
+            
             Level = level;
             this.onDeathAction = onDeathAction;
         }
@@ -43,7 +49,7 @@ namespace Game
         public Task MoveRight() => new Task(() =>
         {
             Interlocked.Exchange(ref side, 1);
-            if (Level.CheckRight(x, y))
+            if (Level.CheckRight(x + Width, y))
                 Interlocked.Add(ref x, 4);
             //if (Level.CheckDown(x, y))
             //    Fall();
@@ -81,7 +87,7 @@ namespace Game
             if (IsFalling) return;
             
             var force = 13;
-            while (Level.CheckDown(x, y))
+            while (Level.CheckDown(x, y + Height))
             {
                 IsFalling = true;
                 Interlocked.Add(ref y, 4);
