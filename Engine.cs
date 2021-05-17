@@ -29,6 +29,10 @@ namespace Game
 
         private bool isPaused = false;
         
+        
+        private Image RightPlayer = Image.FromFile(@"assets\playerSource.bmp");
+        private Image LeftPlayer = Image.FromFile(@"assets\playerSource.bmp");
+        
         public Engine(System.Windows.Forms.Timer timer, MediaPlayer mediaPlayer, Action gameStopped, Action<string> changeBackground)
         {
             KeyPressed = OnPressKey;
@@ -38,37 +42,41 @@ namespace Game
 
             InvalidationTimer = timer;
             ActionTimer = new System.Windows.Forms.Timer();
-            ActionTimer.Interval = 20;
+            ActionTimer.Interval = 5;
             
             //var levelBuilder = new LevelBuilder();
             Level = new LevelBuilder().BuildFromString(LevelBuilder.TestLevel);
             Player = new Player(Level);
             MediaPlayer = mediaPlayer;
             movingController = new MovingController(Player);
+            
+            LeftPlayer.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
             Paint += (sender, args) =>
             {
                 var g = args.Graphics;
                 g.SmoothingMode = SmoothingMode.HighSpeed;
+                
+                g.TranslateTransform(-Player.X + 300, 0);
 
                 for (int i = 0; i < 32; i++)
                 {
                     for (int j = 0; j < 10; j++)
                     {
                         if (Level.LevelMash[i, j].Type != Cells.Space)
-                            g.DrawImage(Image.FromFile(Level.LevelMash[i, j].Texture), 72 * i, 72 * j);
+                            g.DrawImage(Level.LevelMash[i, j].Texture, 72 * i, 72 * j);
                     }
                 }
+                
+                
             };
-            
+
             Paint += (o, args) =>
             {
                 var g = args.Graphics;
                 g.SmoothingMode = SmoothingMode.HighSpeed;
-                
-                
 
-                g.DrawImage(Image.FromFile(@"assets\playerSource.bmp"), Player.X, Player.Y);
+                g.DrawImage(Player.Side == Side.Left ? LeftPlayer : RightPlayer, Player.X, Player.Y);
             };
 
         }
@@ -78,7 +86,7 @@ namespace Game
         {
             ActionTimer.Tick += ActionOnTick;
             
-            Player.SetCoordinate(100, 400);
+            Player.SetCoordinate(300, 400);
 
             ChangeBackground(@"assets\a.png");
             

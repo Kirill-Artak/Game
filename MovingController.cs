@@ -46,6 +46,7 @@ namespace Game
                 case Keys.A:
                     left = false;
                     break;
+                case Keys.W:
                 case Keys.Space:
                     isSpacePressed = false;
                     break;
@@ -56,11 +57,15 @@ namespace Game
         {
             if (right)
             {
-                Player.MoveRight().Start();
+                var task = Player.MoveRight();
+                task.Start();
+                task.ContinueWith(task1 => Player.Fall().Start());
             }
             if (left)
             {
-                Player.MoveLeft().Start();
+                var task = Player.MoveLeft();
+                task.Start();
+                task.ContinueWith(task1 => Player.Fall().Start());
             }
             if (jump && !Player.IsFalling)
             {

@@ -1,4 +1,6 @@
-﻿namespace Game
+﻿using System.Drawing;
+
+namespace Game
 {
     public class LevelCell
     {
@@ -7,9 +9,9 @@
         public Cells Type { get; }
         public int X { get; }
         public int Y { get; }
-        public string Texture { get; }
+        public Image Texture { get; }
 
-        public LevelCell(Cells type, int x, int y, string texture = "")
+        public LevelCell(Cells type, int x, int y, Image texture = null)
         {
             Type = type;
             X = x;

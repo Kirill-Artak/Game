@@ -33,7 +33,7 @@ namespace Game
 
         public Player(ILevel level = null, Action onDeathAction = null)
         {
-            Height = 54;
+            Height = 72;
             Width = 38;
             
             Level = level;
@@ -49,7 +49,9 @@ namespace Game
         public Task MoveRight() => new Task(() =>
         {
             Interlocked.Exchange(ref side, 1);
-            if (Level.CheckRight(x + Width, y))
+            if (Level.CheckRight(x + Width + 15, y + Height - 10) && Level.CheckRight(x + Width + 15, y + 10))
+                Interlocked.Add(ref x, 4);
+            if (Level.CheckRight(x + Width + 15, y + Height - 10) && Level.CheckRight(x + Width + 15, y + 10))
                 Interlocked.Add(ref x, 4);
             //if (Level.CheckDown(x, y))
             //    Fall();
@@ -58,7 +60,9 @@ namespace Game
         public Task MoveLeft() => new Task(() =>
         {
             Interlocked.Exchange(ref side, -1);
-            if (Level.CheckLeft(x, y))
+            if (Level.CheckLeft(x - 15, y + 10) && Level.CheckLeft(x - 15, y + Height - 10))
+                Interlocked.Add(ref x, -4);
+            if (Level.CheckLeft(x - 15, y + 10) && Level.CheckLeft(x - 15, y + Height - 10))
                 Interlocked.Add(ref x, -4);
             //if (Level.CheckDown(x, y))
             //    Fall();
@@ -71,7 +75,7 @@ namespace Game
             
             IsJumping = true;
             
-            var force = 16;
+            var force = 25;
             while (force > 0)
             {
                 Interlocked.Add(ref y, -force);
@@ -87,10 +91,10 @@ namespace Game
             if (IsFalling) return;
             
             var force = 13;
-            while (Level.CheckDown(x, y + Height))
+            while (Level.CheckDown(x + 10, y + Height) && Level.CheckDown(x + Width - 10, y + Height))
             {
                 IsFalling = true;
-                Interlocked.Add(ref y, 4);
+                Interlocked.Add(ref y, 10);
                 if (force > 1)
                     force--;
                 Thread.Sleep(force);

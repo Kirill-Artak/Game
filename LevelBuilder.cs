@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 
 namespace Game
 {
@@ -10,8 +11,6 @@ namespace Game
         
         public Level BuildFromString(string source)
         {
-            var mash = new Cells[10, 32];
-
             var lines = source.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             
             //if (lines.Length != 10) throw new ArgumentOutOfRangeException("Слишком много строк в уровне");
@@ -42,6 +41,7 @@ namespace Game
 
         static LevelBuilder()
         {
+            /*
             var skyLine = new string(' ', 32);
             var sky = "";
 
@@ -55,6 +55,23 @@ namespace Game
                 platform += platformLine + '\n';
 
             TestLevel = sky + platform + platformLine;
+            */
+            
+            var sb = new StringBuilder();
+
+
+            for (var i = 0; i < 5; i++)
+                sb.Append(new string(' ', 32) + '\n');
+
+            for (int i = 0; i < 4; i++)
+            {
+                sb.Append(new string(' ', 6 - i));
+                sb.Append(new string('#', 26 + i) + '\n');
+            }
+
+            sb.Append(new string('#', 32));
+
+            TestLevel = sb.ToString();
         }
     }
 }
