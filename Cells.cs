@@ -6,5 +6,6 @@
         Platform = '#',
         Ammo = 'A',
         Health = 'H',
+        Enemy = 'E'
     }
 }

@@ -12,7 +12,8 @@ namespace Game
         {
             var dictionary = new Dictionary<Cells, Image>();
             dictionary.Add(Cells.Platform, Image.FromFile(@"assets\textures\Platform.bmp"));
-            dictionary.Add(Cells.Space, Image.FromFile(@"assets\textures\sky.bmp"));
+            dictionary.Add(Cells.Space, null);
+            dictionary.Add(Cells.Enemy, null);
 
             TexturesDictionary = new ReadOnlyDictionary<Cells, Image>(dictionary);
         }

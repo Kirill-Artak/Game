@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -21,7 +22,10 @@ namespace Game
 
         public static Level FromLines(string[] lines)
         {
+            var level = new Level();
+            
             var dungeon = new LevelCell[32, 10];
+            var enemies = new List<Enemy>();
             //var initialPosition = Point.Empty;
             //var exit = Point.Empty;
             //var chests = new List<Point>();
@@ -30,11 +34,16 @@ namespace Game
                 for (var x = 0; x < 32; x++)
                 {
                     var type = (Cells) lines[y][x];
+                    if (type == Cells.Enemy)
+                        enemies.Add(new Enemy(level, x * 72, y * 72));
                     dungeon[x, y] = new LevelCell(type, x, y, Textures.TexturesDictionary[type]);
                 }
             }
             
-            return new Level(dungeon);
+            level.AddMash(dungeon);
+            level.AddEnemies(enemies.ToArray());
+            
+            return level;
         }
 
         public static string TestLevel;
@@ -63,10 +72,14 @@ namespace Game
             for (var i = 0; i < 5; i++)
                 sb.Append(new string(' ', 32) + '\n');
 
-            for (int i = 0; i < 4; i++)
+            sb.Append(new string(' ', 19));
+            sb.Append('E');
+            sb.Append(new string(' ', 12) + '\n');
+
+            for (int i = 0; i < 3; i++)
             {
-                sb.Append(new string(' ', 6 - i));
-                sb.Append(new string('#', 26 + i) + '\n');
+                sb.Append(new string(' ', 7 - i));
+                sb.Append(new string('#', 27 + i) + '\n');
             }
 
             sb.Append(new string('#', 32));

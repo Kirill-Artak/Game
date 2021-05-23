@@ -9,10 +9,14 @@ namespace Game
 {
     public class Player
     {
+        public Image ImageRight { get; }
+        public Image ImageLeft { get; }
+        
         public int Health => health;
         public int X => x;
         public int Y => y;
         public Side Side => (Side) side;
+        public int Line => (y + Height / 2) / 72;
         public IWeapon Weapon { get; private set; }
         public ILevel Level { get; }
 
@@ -33,11 +37,16 @@ namespace Game
 
         public Player(ILevel level = null, Action onDeathAction = null)
         {
+            ImageRight = System.Drawing.Image.FromFile(@"assets\playerSource.bmp");
+            ImageLeft = (Image) ImageRight.Clone();
+            
+            ImageLeft.RotateFlip(RotateFlipType.RotateNoneFlipX);
+
             Height = 72;
             Width = 38;
             
             Level = level;
-            this.onDeathAction = onDeathAction;
+            this.onDeathAction = () => MessageBox.Show("1");
         }
 
         public void SetCoordinate(int x, int y)
@@ -49,9 +58,11 @@ namespace Game
         public Task MoveRight() => new Task(() =>
         {
             Interlocked.Exchange(ref side, 1);
-            if (Level.CheckRight(x + Width + 15, y + Height - 10) && Level.CheckRight(x + Width + 15, y + 10))
+            if (Level.Check(x + Width + 15, y + Height - 10, true) 
+                && Level.Check(x + Width + 15, y + 10, true))
                 Interlocked.Add(ref x, 4);
-            if (Level.CheckRight(x + Width + 15, y + Height - 10) && Level.CheckRight(x + Width + 15, y + 10))
+            if (Level.Check(x + Width + 15, y + Height - 10, true) 
+                && Level.Check(x + Width + 15, y + 10, true))
                 Interlocked.Add(ref x, 4);
             //if (Level.CheckDown(x, y))
             //    Fall();
@@ -60,9 +71,11 @@ namespace Game
         public Task MoveLeft() => new Task(() =>
         {
             Interlocked.Exchange(ref side, -1);
-            if (Level.CheckLeft(x - 15, y + 10) && Level.CheckLeft(x - 15, y + Height - 10))
+            if (Level.Check(x - 15, y + 10, true) 
+                && Level.Check(x - 15, y + Height - 10, true))
                 Interlocked.Add(ref x, -4);
-            if (Level.CheckLeft(x - 15, y + 10) && Level.CheckLeft(x - 15, y + Height - 10))
+            if (Level.Check(x - 15, y + 10, true) 
+                && Level.Check(x - 15, y + Height - 10, true))
                 Interlocked.Add(ref x, -4);
             //if (Level.CheckDown(x, y))
             //    Fall();
@@ -91,7 +104,8 @@ namespace Game
             if (IsFalling) return;
             
             var force = 13;
-            while (Level.CheckDown(x + 10, y + Height) && Level.CheckDown(x + Width - 10, y + Height))
+            while (Level.Check(x + 10, y + Height, true) 
+                   && Level.Check(x + Width - 10, y + Height, true))
             {
                 IsFalling = true;
                 Interlocked.Add(ref y, 10);
@@ -103,8 +117,12 @@ namespace Game
             IsFalling = false;
         });
 
-        public void GetDamage() => Task.Run(() =>
+        public void GetDamage(Side direction) => Task.Run(() =>
         {
+            var kb = KnockBack(direction);
+            kb.Start();
+            kb.ContinueWith(t => Fall().Start());
+            
             Interlocked.Decrement(ref health);
             if (health <= 0) 
                 onDeathAction();
@@ -119,11 +137,15 @@ namespace Game
             if (health <= 9)
                 Interlocked.Increment(ref health);
         }
-
-        private Task Move(Action action) => Task.Run(action);
-
         
-        
-        
+        private Task KnockBack(Side direction) => new Task(() =>
+        {
+            var power = 20 * (int) direction;
+            var distance = x + 18 + 20 *(int) direction;
+            
+            if (Level.Check(x - 15, y + 10, true) 
+                && Level.Check(distance, y + Height - 10, true))
+                Interlocked.Add(ref x, power);
+        });
     }
 }

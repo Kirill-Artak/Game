@@ -50,6 +50,9 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Cells.cs" />
+        <Compile Include="EnemiesController.cs" />
+        <Compile Include="Enemy.cs" />
+        <Compile Include="EnemyController.cs" />
         <Compile Include="Engine.cs" />
         <Compile Include="Level.cs" />
         <Compile Include="LevelBuilder.cs" />
@@ -74,6 +77,12 @@
       <Content Include="assets\a.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="assets\background1.jpg">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="assets\enemy.bmp">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Include="assets\playerSource.bmp">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
@@ -81,6 +90,12 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <Content Include="assets\textures\sky.bmp">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="assets\unknown.bmp">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="assets\wall.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
