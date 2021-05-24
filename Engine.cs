@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +20,8 @@ namespace Game
         public System.Windows.Forms.Timer ActionTimer { get; }
         public System.Windows.Forms.Timer EnemiesActionTimer { get; }
         public MediaPlayer MediaPlayer { get; }
+        
+        public SoundPlayer BreakGlassPlayer { get; }
         public Action<string> ChangeBackground { get; }
 
         public KeyEventHandler KeyPressed { get; }
@@ -30,15 +33,18 @@ namespace Game
         private readonly MovingController movingController;
 
         private bool isPaused = false;
+
+        private Action onPause;
         
+        private Image bottle = Image.FromFile(@"assets\bottle.png");
         
-        private Image RightPlayer = Image.FromFile(@"assets\playerSource.bmp");
-        private Image LeftPlayer = Image.FromFile(@"assets\playerSource.bmp");
-        
-        public Engine(System.Windows.Forms.Timer timer, MediaPlayer mediaPlayer, Action gameStopped, Action<string> changeBackground)
+        public Engine(System.Windows.Forms.Timer timer, MediaPlayer mediaPlayer, 
+            Action gameStopped, Action<string> changeBackground)
         {
             KeyPressed = OnPressKey;
             KeyUnpressed = OnUpKey;
+
+            onPause = gameStopped;
 
             ChangeBackground = changeBackground;
 
@@ -48,19 +54,21 @@ namespace Game
             EnemiesActionTimer = new System.Windows.Forms.Timer();
             EnemiesActionTimer.Interval = 10;
             
+            BreakGlassPlayer = new SoundPlayer();
+            BreakGlassPlayer.SoundLocation = @"assets\glass.wav";
+            
             //var levelBuilder = new LevelBuilder();
             Level = new LevelBuilder().BuildFromString(LevelBuilder.TestLevel);
             Level.SetBackground(@"assets\background1.jpg");
             Level.SetWall(@"assets\wall.png");
             
-            Player = new Player(Level);
+            Player = new Player(Level, () => { }, () => {BreakGlassPlayer.Play();});
             
             EnemiesController = new EnemiesController(Level.Enemies, Player, Level);
             
             MediaPlayer = mediaPlayer;
-            movingController = new MovingController(Player);
             
-            LeftPlayer.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            movingController = new MovingController(Player);
 
             Paint += (sender, args) =>
             {
@@ -105,6 +113,13 @@ namespace Game
                 
 
                 g.DrawImage(Player.Side == Side.Left ? Player.ImageLeft : Player.ImageRight, Player.X, Player.Y);
+                
+                g.TranslateTransform(Player.X - 300, 0);
+
+                for (int i = 0; i < Player.Health; i++)
+                {
+                    g.DrawImage(bottle, 20 + 40 * i, 20);
+                }
             }; 
             
             
@@ -198,6 +213,31 @@ namespace Game
             EnemiesActionTimer.Start();
         }
 
+        public void Pause()
+        {
+            InvalidationTimer.Stop();
+            ActionTimer.Stop();
+            EnemiesActionTimer.Stop();
+            
+            MediaPlayer.Pause();
+            
+            movingController.Abort();
+            EnemiesController.Pause();
+
+            onPause();
+        }
+
+        public void ContinueGame()
+        {
+            EnemiesController.Continue();
+            
+            ActionTimer.Start();
+            InvalidationTimer.Start();
+            EnemiesActionTimer.Start();
+            
+            MediaPlayer.Play();
+        }
+
         private void ActionOnTick(object s, EventArgs eventArgs)
         {
             movingController.Move();
@@ -205,7 +245,13 @@ namespace Game
 
         private void OnPressKey(object sender, KeyEventArgs e)
         {
-            movingController.AddMovement(e.KeyCode);
+            if (!isPaused && e.KeyCode != Keys.Escape)
+            {
+                movingController.AddMovement(e.KeyCode);
+                return;
+            }
+            
+            Pause();
         }
 
         private void OnUpKey(object s, KeyEventArgs e)

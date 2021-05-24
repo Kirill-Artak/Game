@@ -27,6 +27,7 @@ namespace Game
         public int Width { get; }
 
         private readonly Action onDeathAction;
+        private readonly Action onDamage;
 
         private int health = 10;
         private int x;
@@ -35,7 +36,7 @@ namespace Game
 
         
 
-        public Player(ILevel level = null, Action onDeathAction = null)
+        public Player(ILevel level = null, Action onDeathAction = null, Action onDamage = null)
         {
             ImageRight = System.Drawing.Image.FromFile(@"assets\playerSource.bmp");
             ImageLeft = (Image) ImageRight.Clone();
@@ -47,6 +48,7 @@ namespace Game
             
             Level = level;
             this.onDeathAction = () => MessageBox.Show("1");
+            this.onDamage = onDamage;
         }
 
         public void SetCoordinate(int x, int y)
@@ -119,6 +121,8 @@ namespace Game
 
         public void GetDamage(Side direction) => Task.Run(() =>
         {
+            onDamage();
+            
             var kb = KnockBack(direction);
             kb.Start();
             kb.ContinueWith(t => Fall().Start());

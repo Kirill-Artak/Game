@@ -17,6 +17,13 @@ namespace Game
             Player = player;
         }
 
+        public void Abort()
+        {
+            right = false;
+            left = false;
+            jump = false;
+        }
+
         public void AddMovement(Keys key)
         {
             switch (key)

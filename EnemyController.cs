@@ -14,6 +14,8 @@ namespace Game
         
         public Level Level { get; }
 
+        public bool IsPaused { get; set; }
+
         public EnemyController(Enemy enemy, Player player, Level level)
         {
             Enemy = enemy;
@@ -29,7 +31,8 @@ namespace Game
                 
                 //Thread.Sleep(500);
                 
-                while (Math.Abs(Player.X - Enemy.X) > Level.CellLength)
+                while (Math.Abs(Player.X - Enemy.X) > Level.CellLength
+                        && !IsPaused)
                 {
                     if (Enemy.IsWalk) continue; 
                     
@@ -43,7 +46,8 @@ namespace Game
                 
                 Thread.Sleep(200);
 
-                while (Math.Abs(Player.X - Enemy.X) <= Level.CellLength)
+                while (Math.Abs(Player.X - Enemy.X) <= Level.CellLength + 10
+                        && !IsPaused)
                 {
                     Player.GetDamage(Enemy.Side);
                     Thread.Sleep(2000);

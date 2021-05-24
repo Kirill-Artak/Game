@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
+using Color = System.Drawing.Color;
 
 namespace Game
 {
@@ -24,6 +25,10 @@ namespace Game
 
         public MainForm()
         {
+            
+            
+            BackgroundImage = backgroundImage;
+            
             Size = new Size(1280, 720);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             KeyPreview = true;
@@ -37,7 +42,9 @@ namespace Game
             timer.Interval = 20;
             timer.Tick += (sender, args) => Invalidate();
 
-
+            engine = new Engine(timer, mediaPlayer, () => { Controls.Add(PauseTable); }, ChangeBackground);
+            
+            
             MenuTable = MenuBuilder(
                 ButtonBuilder("Новая игра", (s, e) => {
                     Controls.Remove(MenuTable);
@@ -75,6 +82,13 @@ namespace Game
                     Controls.Remove(SettingsTable);
                     Controls.Add(MenuTable);
                 }));
+
+            PauseTable = MenuBuilder(ButtonBuilder("Продолжить", (s, e) => {
+                    Controls.Remove(PauseTable);
+                    engine.ContinueGame();
+                    Focus();
+                }),
+                ButtonBuilder("Выход", (s, e) => Application.Exit()));
             
             Controls.Add(MenuTable);
             
@@ -97,12 +111,11 @@ namespace Game
         {
             BackgroundImage = Image.FromFile(source);
         }
-        
-        
 
         private void RunGame()
         {
-            engine = new Engine(timer, mediaPlayer, () => { }, ChangeBackground);
+            BackgroundImage = null;
+            
 
             KeyDown += (o, e) => engine.KeyPressed.Invoke(o, e);
             KeyUp += (sender, args) => engine.KeyUnpressed.Invoke(sender, args);
@@ -116,8 +129,9 @@ namespace Game
         {
             var table = new TableLayoutPanel();
             
-            table.BackgroundImage = backgroundImage;
-            
+            //table.BackgroundImage = backgroundImage;
+            table.BackColor = Color.Transparent;
+
             table.Anchor = AnchorStyles.Top;
             table.Dock = DockStyle.Fill;
             

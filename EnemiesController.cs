@@ -23,5 +23,21 @@ namespace Game
                 e.Move().Start();
             }
         }
+
+        public void Pause()
+        {
+            foreach (var e in Controllers)
+            {
+                e.IsPaused = true;
+            }
+        }
+
+        public void Continue()
+        {
+            foreach (var e in Controllers)
+            {
+                e.IsPaused = false;
+            }
+        }
     }
 }
