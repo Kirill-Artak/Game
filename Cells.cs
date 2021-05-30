@@ -5,9 +5,11 @@
         Space = ' ',
         Ground = '#',
         Ground2 = '$',
+        Conditioner = 'C',
         Ammo = 'A',
         Health = 'H',
         Bonus = 'B',
-        Enemy = 'E'
+        Enemy = 'E',
+        Final = 'F'
     }
 }

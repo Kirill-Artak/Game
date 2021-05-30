@@ -70,7 +70,7 @@ namespace Game
                 
                 Enemy.IsTriggered = false;
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         
 
         private bool CheckPlayer()

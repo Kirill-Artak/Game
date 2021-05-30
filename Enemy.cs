@@ -7,6 +7,9 @@ namespace Game
 {
     public class Enemy
     {
+        public int StartX { get; }
+        public int StartY { get; }
+        
         public Image ImageRight { get; }
         public Image ImageLeft { get; }
 
@@ -55,6 +58,9 @@ namespace Game
 
             this.x = x;
             this.y = y;
+
+            StartX = x;
+            StartY = y;
             
             Height = 54; //72
             Width = 28;  //38
@@ -118,5 +124,13 @@ namespace Game
         });
 
         public int Distance(int x) => Math.Abs(this.x - x);
+
+        public void ToStart()
+        {
+            x = StartX;
+            y = StartY;
+            IsDead = false;
+            health = 5;
+        }
     }
 }

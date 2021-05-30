@@ -22,11 +22,10 @@ namespace Game
         private TableLayoutPanel MenuTable;
         private TableLayoutPanel SettingsTable;
         private TableLayoutPanel PauseTable;
+        private TableLayoutPanel FinalTable;
 
         public MainForm()
         {
-            
-            
             BackgroundImage = backgroundImage;
             
             Size = new Size(1280, 720);
@@ -89,10 +88,15 @@ namespace Game
                     Focus();
                 }),
                 ButtonBuilder("Выход", (s, e) => Application.Exit()));
-            
+
             Controls.Add(MenuTable);
             
             mediaPlayer.Open(new Uri(@"assets\Audio\menu.mp3", UriKind.Relative));
+            mediaPlayer.MediaEnded += (sender, args) =>
+            {
+                mediaPlayer.Stop();
+                mediaPlayer.Play();
+            };
             mediaPlayer.Volume = 0.1;
             mediaPlayer.Play();
         }

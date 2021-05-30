@@ -28,16 +28,18 @@ namespace Game
         public bool IsJumping { get; private set; }
 
         public bool IsDamage { get; private set; }
+        
+        public bool IsDead { get; private set; }
 
         public bool CanAttack { get; set; }
         
         public int Height { get; }
         public int Width { get; }
 
-        private readonly Action onDeathAction;
+        public readonly Action OnDeathAction;
         private readonly Action onDamage;
 
-        private int health = 10;
+        private int health = 5;
         private int bonus;
         private int x;
         private int y;
@@ -60,7 +62,7 @@ namespace Game
             Width = 28;  //38
             
             Level = level;
-            this.onDeathAction = () => MessageBox.Show("1");
+            OnDeathAction = onDeathAction;
             this.onDamage = onDamage;
         }
 
@@ -132,8 +134,10 @@ namespace Game
             IsFalling = false;
         });
 
-        public void GetDamage(Side direction) => Task.Run(() =>
+        public void GetDamage(Side direction)
         {
+            if (IsDead) return;
+            
             onDamage();
             
             var kb = KnockBack(direction);
@@ -141,9 +145,12 @@ namespace Game
             kb.ContinueWith(t => Fall().Start());
             
             Interlocked.Decrement(ref health);
-            if (health <= 0) 
-                onDeathAction();
-        });
+            if (health <= 0)
+            {
+                IsDead = true;
+                //onDeathAction();
+            }
+        }
 
         public Task Damage() => new Task(() =>
         {
@@ -192,7 +199,7 @@ namespace Game
             switch (type)
             {
                 case ItemType.Health:
-                    if (health <= 9)
+                    if (health <= 7)
                     {
                         Interlocked.Increment(ref health);
                         return true;
@@ -205,8 +212,14 @@ namespace Game
 
             return false;
         }
-        
-        
+
+        public void HealthUp()
+        {
+            health = 5;
+            bonus = 0;
+            IsDead = false;
+        }
+
         private Task KnockBack(Side direction) => new Task(() =>
         {
             var power = 20 * (int) direction;

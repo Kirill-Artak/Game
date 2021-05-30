@@ -1,17 +1,28 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace Game
 {
     public class Level
     {
+        public int EndGameX { get; private set; }
+        public int EndGameY { get; private set; }
+        
         public Image Background { get; private set; }
         public Image Wall { get; private set; }
+        
+        public Image Border { get; private set; }
+        public string Audio { get; private set; }
         
         public LevelCell[,] LevelMash { get; private set; }
         public Enemy[] Enemies { get; private set; }
         public Item[] Items { get; private set; }
         public int CellLength { get; }
-
+        
+        public bool IsBackgroundMoving { get; set; }
+        public bool IsOutdoor { get; set; }
+        public bool HasWall { get; set; }
+        
         public Level()
         {
             CellLength = 72;
@@ -21,6 +32,19 @@ namespace Game
         {
             LevelMash = levelMash;
             CellLength = 72;
+        }
+
+        public void Rebuild()
+        {
+            foreach (var e in Enemies)
+            {
+                e.ToStart();
+            }
+
+            foreach (var e in Items)
+            {
+                e.IsUsed = false;
+            }
         }
 
         public void AddMash(LevelCell[,] levelMash)
@@ -38,9 +62,28 @@ namespace Game
             Items = items;
         }
 
+        public void AddAudio(string path)
+        {
+            Audio = path;
+        }
+
+        public void AddEndOfLevel(int x, int y)
+        {
+            EndGameX = x;
+            EndGameY = y;
+        }
+
+        public void AddBorder(string path)
+        {
+            Border = Image.FromFile(path);
+        }
+
         public bool Check(int x, int y, bool isPlayer)
         {
             var result = true;
+
+            if (x <= 0 || x >= 8432)
+                return false;
             
             switch (LevelMash[x / CellLength, y / CellLength].Type)
             {

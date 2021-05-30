@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -9,22 +8,40 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
+using Brushes = System.Drawing.Brushes;
 using Color = System.Drawing.Color;
 using Pen = System.Windows.Media.Pen;
-using Timer = System.Threading.Timer;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Game
 {
     public class Engine
     {
+        public int TotalBonus { get; private set; }
+        
         public Player Player { get; }
-        public Level Level { get; }
+        public Level Level => Levels[currentLevel];
+        
+        public Level[] Levels { get; }
+
+        //
         public EnemiesController EnemiesController { get; private set; }
         public ItemsController ItemsController { get; private set; }
-        public System.Windows.Forms.Timer InvalidationTimer { get; }
-        public System.Windows.Forms.Timer ActionTimer { get; }
-        public System.Windows.Forms.Timer EnemiesActionTimer { get; }
-        public System.Windows.Forms.Timer ItemTimer { get; }
+        //
+        
+        public System.Windows.Forms.Timer InvalidationTimer { get; private set; }
+        public System.Windows.Forms.Timer ActionTimer { get; private set; }
+        public Timer PlayerDeathTimer { get; private set; }
+        public Timer EndOfLevelTimer { get; private set; }
+        
+        //
+        public System.Windows.Forms.Timer EnemiesActionTimer { get; private set; }
+        //
+        
+        //
+        public System.Windows.Forms.Timer ItemTimer { get; private set; }
+        //
+        
         public MediaPlayer MediaPlayer { get; }
         
         public SoundPlayer BreakGlassPlayer { get; }
@@ -39,6 +56,9 @@ namespace Game
         private readonly MovingController movingController;
 
         private bool isPaused = false;
+        private bool isGameEnded = false;
+
+        private int currentLevel = 0;
 
         private Action onPause;
         
@@ -47,12 +67,13 @@ namespace Game
 
 
         private System.Drawing.Pen hpPen = new System.Drawing.Pen(Color.LightCoral, 5);
-        
-        
+        private Image EndBackground = Image.FromFile(@"assets\Background\end.jpg");
+        private Font endFont = new Font("Arial", 18);
+
         public Engine(System.Windows.Forms.Timer timer, MediaPlayer mediaPlayer, 
             Action gameStopped, Action<string> changeBackground)
         {
-            var l = File.ReadAllText(@"C:\UrFU\game\Game\Level1.txt");
+            Levels = LevelBuilder.BuildFromFiles(@"Level1.txt");
             
             KeyPressed = OnPressKey;
             KeyUnpressed = OnUpKey;
@@ -62,27 +83,35 @@ namespace Game
             ChangeBackground = changeBackground;
 
             InvalidationTimer = timer;
-            ActionTimer = new System.Windows.Forms.Timer();
-            ActionTimer.Interval = 5;
-            EnemiesActionTimer = new System.Windows.Forms.Timer();
-            EnemiesActionTimer.Interval = 10;
-            ItemTimer = new System.Windows.Forms.Timer();
-            ItemTimer.Interval = 20;
+            
+            PlayerDeathTimer = new Timer();
+            PlayerDeathTimer.Interval = 60;
+            PlayerDeathTimer.Tick += (sender, args) =>
+            {
+                if (Player.IsDead)
+                {
+                    PlayerDeathTimer.Stop();
+                    Restart();
+                }
+            };
+            
+            EndOfLevelTimer = new Timer();
+            EndOfLevelTimer.Interval = 60;
+            EndOfLevelTimer.Tick += (sender, args) =>
+            {
+                if (Math.Abs(Player.X - Level.EndGameX) < 100 
+                    && Math.Abs(Player.Y - Level.EndGameY) < 100)
+                {
+                    EndOfLevelTimer.Stop();
+                    NextLevel();
+                }
+            };
             
             BreakGlassPlayer = new SoundPlayer();
             BreakGlassPlayer.SoundLocation = @"assets\Audio\glass.wav";
-            
-            //var levelBuilder = new LevelBuilder();
-            //Level = new LevelBuilder().BuildFromString(LevelBuilder.TestLevel);
-            Level = new LevelBuilder().BuildFromString(l);
-            Level.SetBackground(@"assets\Background\background1.jpg");
-            Level.SetWall(@"assets\Background\wall.png");
-            
-            Player = new Player(Level, () => { }, () => {BreakGlassPlayer.Play();});
-            
-            EnemiesController = new EnemiesController(Level.Enemies, Player, Level);
-            ItemsController = new ItemsController(Level.Items, Player);
-            
+
+            Player = new Player(Level,Restart, () => {BreakGlassPlayer.Play();});
+
             MediaPlayer = mediaPlayer;
             
             movingController = new MovingController(Player);
@@ -91,19 +120,32 @@ namespace Game
             {
                 var g = args.Graphics;
                 g.SmoothingMode = SmoothingMode.HighSpeed;
-                
-                g.TranslateTransform(-Player.X * 0.25f, 0);
-                
-                g.DrawImage(Level.Background, 0, 0);
-                //g.DrawImage(Image.FromFile(@"assets\unknown.bmp"), );
-                
-                g.TranslateTransform(-Player.X * 0.25f, 0);
-                
-                g.DrawImage(Level.Wall, 0, 300);
 
-                g.TranslateTransform(Player.X * 0.5f, 0);
+                if (isGameEnded)
+                {
+                    g.DrawImage(EndBackground, 0, 0);
+                    g.DrawString(TotalBonus.ToString(),endFont,Brushes.PaleVioletRed, 932, 282);
+                    return;
+                }
                 
                 
+                if (!Level.IsOutdoor)
+                {
+                    g.TranslateTransform(-Player.X * 0.25f, 0);
+
+                    g.DrawImage(Level.Background, 0, 0);
+                    //g.DrawImage(Image.FromFile(@"assets\unknown.bmp"), );
+                    g.TranslateTransform(Player.X * 0.25f, 0);
+                }
+
+                
+                g.TranslateTransform(Level.IsBackgroundMoving ? -Player.X * 0.5f : -Player.X + 300, 0);
+
+                g.DrawImage(Level.Wall, 0, 300);
+                
+                g.TranslateTransform(Level.IsBackgroundMoving ? Player.X * 0.5f : Player.X - 300, 0);
+                
+
                 g.TranslateTransform(-Player.X + 300, 0);
 
                 for (int i = 0; i < 128; i++)
@@ -111,7 +153,8 @@ namespace Game
                     for (int j = 0; j < 10; j++)
                     {
                         if (Level.LevelMash[i, j].Type == Cells.Ground
-                            || Level.LevelMash[i, j].Type == Cells.Ground2)
+                            || Level.LevelMash[i, j].Type == Cells.Ground2
+                            || Level.LevelMash[i, j].Type == Cells.Conditioner)
                             g.DrawImage(Level.LevelMash[i, j].Texture, 72 * i, 72 * j);
                     }
                 }
@@ -153,9 +196,13 @@ namespace Game
                 
                 //g.TranslateTransform(Player.X + 300, 0);
                 
-
                 g.DrawImage(Player.Side == Side.Left ? Player.ImageLeft : Player.ImageRight, Player.X, Player.Y);
                 
+                g.DrawImage(Image.FromFile(@"assets\Background\ksk.png"), -100, 278);
+                
+                g.DrawImage(Level.Border, -300, 0);
+                g.DrawImage(Level.Border, 9200, 0);
+
                 g.TranslateTransform(Player.X - 300, 0);
 
                 for (var i = 0; i < Player.Health; i++)
@@ -167,101 +214,49 @@ namespace Game
                 {
                     g.DrawImage(bonus, 700 - 40 * i, 20);
                 }
-            }; 
-            
-            
-            /*
-            Paint += (sender, args) =>
-            {
-                var g = args.Graphics;
-                g.SmoothingMode = SmoothingMode.HighSpeed;
-                
-                g.TranslateTransform(-Player.X * 0.25f, 0);
-                
-                g.DrawImage(Level.Background, 0, 0);
-                //g.DrawImage(Image.FromFile(@"assets\unknown.bmp"), );
-                
-                g.TranslateTransform(Player.X * 0.25f, 0);
             };
-            
-            Paint += (sender, args) =>
-            {
-                var g = args.Graphics;
-                g.SmoothingMode = SmoothingMode.HighSpeed;
-                
-                g.TranslateTransform(-Player.X * 0.5f, 0);
-                
-                g.DrawImage(Level.Wall, 0, 300);
-
-                g.TranslateTransform(Player.X * 0.5f, 0);
-            };
-            
-            Paint += (sender, args) =>
-            {
-                var g = args.Graphics;
-                g.SmoothingMode = SmoothingMode.HighSpeed;
-                
-                g.TranslateTransform(-Player.X + 300, 0);
-
-                for (int i = 0; i < 32; i++)
-                {
-                    for (int j = 0; j < 10; j++)
-                    {
-                        if (Level.LevelMash[i, j].Type != Cells.Space 
-                            && Level.LevelMash[i, j].Type != Cells.Enemy)
-                            g.DrawImage(Level.LevelMash[i, j].Texture, 72 * i, 72 * j);
-                    }
-                }
-                
-                //g.TranslateTransform(Player.X + 300, 0);
-            };
-
-            Paint += (sender, args) =>
-            {
-                var g = args.Graphics;
-                g.SmoothingMode = SmoothingMode.HighSpeed;
-
-                //g.TranslateTransform(-Player.X + 300, 0);
-                
-                foreach (var e in Level.Enemies)
-                {
-                    g.DrawImage(e.Side == Side.Left ? e.ImageLeft : e.ImageRight, e.X, e.Y);
-                }
-                
-                //g.TranslateTransform(Player.X + 300, 0);
-            };
-
-            Paint += (o, args) =>
-            {
-                var g = args.Graphics;
-                g.SmoothingMode = SmoothingMode.HighSpeed;
-
-                g.DrawImage(Player.Side == Side.Left ? Player.ImageLeft : Player.ImageRight, Player.X, Player.Y);
-            };
-            */
-
         }
 
         
         public void StartGame()
         {
+            EnemiesController = new EnemiesController(
+                Level.Enemies, 
+                Player, 
+                Level);
+            ItemsController = new ItemsController(Level.Items, Player);
+            
+            ActionTimer = new System.Windows.Forms.Timer();
+            ActionTimer.Interval = 10;
+            
+            EnemiesActionTimer = new System.Windows.Forms.Timer();
+            EnemiesActionTimer.Interval = 10;
+            
+            ItemTimer = new System.Windows.Forms.Timer();
+            ItemTimer.Interval = 20;
+            
             ActionTimer.Tick += ActionOnTick;
             EnemiesActionTimer.Tick += EnemiesController.OnTick;
             ItemTimer.Tick += ItemsController.OnTick;
             
+            Player.HealthUp();
             Player.SetCoordinate(300, 400);
-
+//////////////////////////////////////////////////////////////////
             //ChangeBackground(@"assets\a.png");
             
-            MediaPlayer.Open(new Uri(@"assets\Audio\game.mp3", UriKind.Relative));
+            MediaPlayer.Stop();
+            MediaPlayer.Open(new Uri(Level.Audio, UriKind.Relative));
             MediaPlayer.Play();
             
             InvalidationTimer.Start();
             ActionTimer.Start();
             EnemiesActionTimer.Start();
             ItemTimer.Start();
+            PlayerDeathTimer.Start();
+            EndOfLevelTimer.Start();
             
             Player.Fall().Start();
+            
 
             foreach (var e in Level.Enemies)
             {
@@ -269,8 +264,50 @@ namespace Game
             }
         }
 
-        public void Pause()
+        private void NextLevel()
         {
+            //InvalidationTimer.Stop();
+            ActionTimer.Stop();
+            EnemiesActionTimer.Stop();
+            //st
+            
+            MediaPlayer.Stop();
+
+            TotalBonus += Player.Bonus;
+
+            currentLevel++;
+
+            if (currentLevel + 1 > Levels.Length)
+            {
+                isGameEnded = true;
+                MediaPlayer.Open(new Uri(@"assets\Audio\fin.mp3", UriKind.Relative));
+                MediaPlayer.Play();
+                return;
+            }
+            
+            StartGame();
+        }
+
+        private void Restart()
+        {
+            EnemiesController.Pause();
+            movingController.Abort();
+            
+            InvalidationTimer.Stop();
+            ActionTimer.Stop();
+            EnemiesActionTimer.Stop();
+            
+            //MediaPlayer.Pause();
+            
+            Level.Rebuild();
+            
+            StartGame();
+        }
+
+        private void Pause()
+        {
+            EnemiesController.Pause();
+            
             InvalidationTimer.Stop();
             ActionTimer.Stop();
             EnemiesActionTimer.Stop();
@@ -278,7 +315,6 @@ namespace Game
             MediaPlayer.Pause();
             
             movingController.Abort();
-            EnemiesController.Pause();
 
             onPause();
         }

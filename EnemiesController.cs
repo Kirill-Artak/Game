@@ -8,9 +8,12 @@ namespace Game
     {
         public List<EnemyController> Controllers { get; }
 
+        private Player player;
+
         public EnemiesController(IEnumerable<Enemy> enemies, Player player, Level level)
         {
             Controllers = new List<EnemyController>();
+            this.player = player;
             
             foreach (var e in enemies)
                 Controllers.Add(new EnemyController(e, player, level));
@@ -20,6 +23,11 @@ namespace Game
         {
             foreach (var e in Controllers)
             {
+                if (player.IsDead)
+                {
+                    return;
+                }
+                
                 e.Focus().Start();
                 
                 if (e.Enemy.IsDead || e.Enemy.IsTriggered) continue;
