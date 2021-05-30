@@ -15,6 +15,8 @@ namespace Game
         public Image ImageLeft { get; }
         
         public int Health => health;
+        public int Bonus => bonus;
+
         public int X => x;
         public int Y => y;
         public Side Side => (Side) side;
@@ -36,6 +38,7 @@ namespace Game
         private readonly Action onDamage;
 
         private int health = 10;
+        private int bonus;
         private int x;
         private int y;
         private int side = 1;
@@ -184,11 +187,25 @@ namespace Game
 
         public void PickupBullet() => Weapon.PickupBullet();
 
-        public void PickupHealth()
+        public bool PickupItem(ItemType type)
         {
-            if (health <= 9)
-                Interlocked.Increment(ref health);
+            switch (type)
+            {
+                case ItemType.Health:
+                    if (health <= 9)
+                    {
+                        Interlocked.Increment(ref health);
+                        return true;
+                    }
+                    break;
+                case ItemType.Bonus:
+                    Interlocked.Increment(ref bonus);
+                    return true;
+            }
+
+            return false;
         }
+        
         
         private Task KnockBack(Side direction) => new Task(() =>
         {

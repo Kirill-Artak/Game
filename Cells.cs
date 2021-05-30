@@ -3,9 +3,11 @@
     public enum Cells
     {
         Space = ' ',
-        Platform = '#',
+        Ground = '#',
+        Ground2 = '$',
         Ammo = 'A',
         Health = 'H',
+        Bonus = 'B',
         Enemy = 'E'
     }
 }

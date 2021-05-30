@@ -9,6 +9,7 @@ namespace Game
         
         public LevelCell[,] LevelMash { get; private set; }
         public Enemy[] Enemies { get; private set; }
+        public Item[] Items { get; private set; }
         public int CellLength { get; }
 
         public Level()
@@ -32,6 +33,11 @@ namespace Game
             Enemies = enemies;
         }
 
+        public void AddItems(Item[] items)
+        {
+            Items = items;
+        }
+
         public bool Check(int x, int y, bool isPlayer)
         {
             var result = true;
@@ -43,7 +49,7 @@ namespace Game
                 case Cells.Health:
                     result =  true;
                     break;
-                case Cells.Platform:
+                case Cells.Ground:
                     result =  false;
                     break;
                 default:

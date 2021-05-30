@@ -54,6 +54,10 @@
         <Compile Include="Enemy.cs" />
         <Compile Include="EnemyController.cs" />
         <Compile Include="Engine.cs" />
+        <Compile Include="Item.cs" />
+        <Compile Include="ItemController.cs" />
+        <Compile Include="ItemsController.cs" />
+        <Compile Include="ItemType.cs" />
         <Compile Include="Level.cs" />
         <Compile Include="LevelBuilder.cs" />
         <Compile Include="LevelCell.cs" />
@@ -100,12 +104,19 @@
       <Content Include="assets\Player\player.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="assets\textures\bonus.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Include="assets\textures\bottle.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="assets\textures\Platform.bmp">
+      <Content Include="assets\textures\gnd.jpg">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="assets\textures\gnd2.jpg">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="assets\textures\Platform.bmp" />
       <Content Include="Level1.txt" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

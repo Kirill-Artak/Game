@@ -26,6 +26,7 @@ namespace Game
             
             var dungeon = new LevelCell[128, 10];
             var enemies = new List<Enemy>();
+            var items = new List<Item>();
             //var initialPosition = Point.Empty;
             //var exit = Point.Empty;
             //var chests = new List<Point>();
@@ -36,12 +37,17 @@ namespace Game
                     var type = (Cells) lines[y][x];
                     if (type == Cells.Enemy)
                         enemies.Add(new Enemy(level, x * 72, y * 72));
+                    if (type == Cells.Bonus)
+                        items.Add(new Item(ItemType.Bonus, x * 72 + 36, y * 72 + 40));
+                    if (type == Cells.Health)
+                        items.Add(new Item(ItemType.Health, x * 72 + 36, y * 72 + 40));
                     dungeon[x, y] = new LevelCell(type, x, y, Textures.TexturesDictionary[type]);
                 }
             }
             
             level.AddMash(dungeon);
             level.AddEnemies(enemies.ToArray());
+            level.AddItems(items.ToArray());
             
             return level;
         }

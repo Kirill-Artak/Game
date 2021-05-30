@@ -7,6 +7,7 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using Color = System.Drawing.Color;
 using Pen = System.Windows.Media.Pen;
@@ -18,10 +19,12 @@ namespace Game
     {
         public Player Player { get; }
         public Level Level { get; }
-        public EnemiesController EnemiesController { get; }
+        public EnemiesController EnemiesController { get; private set; }
+        public ItemsController ItemsController { get; private set; }
         public System.Windows.Forms.Timer InvalidationTimer { get; }
         public System.Windows.Forms.Timer ActionTimer { get; }
         public System.Windows.Forms.Timer EnemiesActionTimer { get; }
+        public System.Windows.Forms.Timer ItemTimer { get; }
         public MediaPlayer MediaPlayer { get; }
         
         public SoundPlayer BreakGlassPlayer { get; }
@@ -39,7 +42,9 @@ namespace Game
 
         private Action onPause;
         
-        private Image bottle = Image.FromFile(@"assets\textures\bottle.png");
+        private Image bottle = Textures.BonusTexturesDictionary[ItemType.Health];
+        private Image bonus = Textures.BonusTexturesDictionary[ItemType.Bonus];
+
 
         private System.Drawing.Pen hpPen = new System.Drawing.Pen(Color.LightCoral, 5);
         
@@ -61,6 +66,8 @@ namespace Game
             ActionTimer.Interval = 5;
             EnemiesActionTimer = new System.Windows.Forms.Timer();
             EnemiesActionTimer.Interval = 10;
+            ItemTimer = new System.Windows.Forms.Timer();
+            ItemTimer.Interval = 20;
             
             BreakGlassPlayer = new SoundPlayer();
             BreakGlassPlayer.SoundLocation = @"assets\Audio\glass.wav";
@@ -74,6 +81,7 @@ namespace Game
             Player = new Player(Level, () => { }, () => {BreakGlassPlayer.Play();});
             
             EnemiesController = new EnemiesController(Level.Enemies, Player, Level);
+            ItemsController = new ItemsController(Level.Items, Player);
             
             MediaPlayer = mediaPlayer;
             
@@ -102,8 +110,8 @@ namespace Game
                 {
                     for (int j = 0; j < 10; j++)
                     {
-                        if (Level.LevelMash[i, j].Type != Cells.Space 
-                            && Level.LevelMash[i, j].Type != Cells.Enemy)
+                        if (Level.LevelMash[i, j].Type == Cells.Ground
+                            || Level.LevelMash[i, j].Type == Cells.Ground2)
                             g.DrawImage(Level.LevelMash[i, j].Texture, 72 * i, 72 * j);
                     }
                 }
@@ -134,6 +142,14 @@ namespace Game
                             e.x, e.y - 7, e.x + e.Width / 5 * e.health, e.y - 7);
                     }
                 }
+
+                foreach (var e in Level.Items)
+                {
+                    if (!e.IsUsed)
+                    {
+                        g.DrawImage(Textures.BonusTexturesDictionary[e.ItemType], e.X, e.Y);
+                    }
+                }
                 
                 //g.TranslateTransform(Player.X + 300, 0);
                 
@@ -145,6 +161,11 @@ namespace Game
                 for (var i = 0; i < Player.Health; i++)
                 {
                     g.DrawImage(bottle, 20 + 40 * i, 20);
+                }
+
+                for (var i = 0; i < Player.Bonus; i++)
+                {
+                    g.DrawImage(bonus, 700 - 40 * i, 20);
                 }
             }; 
             
@@ -226,6 +247,7 @@ namespace Game
         {
             ActionTimer.Tick += ActionOnTick;
             EnemiesActionTimer.Tick += EnemiesController.OnTick;
+            ItemTimer.Tick += ItemsController.OnTick;
             
             Player.SetCoordinate(300, 400);
 
@@ -237,6 +259,7 @@ namespace Game
             InvalidationTimer.Start();
             ActionTimer.Start();
             EnemiesActionTimer.Start();
+            ItemTimer.Start();
             
             Player.Fall().Start();
 
