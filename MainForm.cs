@@ -13,7 +13,7 @@ namespace Game
     {
         private Size menuButtonSize = new Size(180, 60);
         private Font menuButtonFont = new Font("Arial", 14);
-        private Image backgroundImage = Image.FromFile(@"assets\a.png");
+        private Image backgroundImage = Image.FromFile(@"assets\Background\a.png");
         
         private Timer timer = new Timer();
         private MediaPlayer mediaPlayer = new MediaPlayer();
@@ -92,7 +92,7 @@ namespace Game
             
             Controls.Add(MenuTable);
             
-            mediaPlayer.Open(new Uri(@"assets\menu.mp3", UriKind.Relative));
+            mediaPlayer.Open(new Uri(@"assets\Audio\menu.mp3", UriKind.Relative));
             mediaPlayer.Volume = 0.1;
             mediaPlayer.Play();
         }

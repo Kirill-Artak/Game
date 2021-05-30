@@ -2,11 +2,14 @@
 using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using Color = System.Drawing.Color;
+using Pen = System.Windows.Media.Pen;
 using Timer = System.Threading.Timer;
 
 namespace Game
@@ -36,11 +39,16 @@ namespace Game
 
         private Action onPause;
         
-        private Image bottle = Image.FromFile(@"assets\bottle.png");
+        private Image bottle = Image.FromFile(@"assets\textures\bottle.png");
+
+        private System.Drawing.Pen hpPen = new System.Drawing.Pen(Color.LightCoral, 5);
+        
         
         public Engine(System.Windows.Forms.Timer timer, MediaPlayer mediaPlayer, 
             Action gameStopped, Action<string> changeBackground)
         {
+            var l = File.ReadAllText(@"C:\UrFU\game\Game\Level1.txt");
+            
             KeyPressed = OnPressKey;
             KeyUnpressed = OnUpKey;
 
@@ -55,12 +63,13 @@ namespace Game
             EnemiesActionTimer.Interval = 10;
             
             BreakGlassPlayer = new SoundPlayer();
-            BreakGlassPlayer.SoundLocation = @"assets\glass.wav";
+            BreakGlassPlayer.SoundLocation = @"assets\Audio\glass.wav";
             
             //var levelBuilder = new LevelBuilder();
-            Level = new LevelBuilder().BuildFromString(LevelBuilder.TestLevel);
-            Level.SetBackground(@"assets\background1.jpg");
-            Level.SetWall(@"assets\wall.png");
+            //Level = new LevelBuilder().BuildFromString(LevelBuilder.TestLevel);
+            Level = new LevelBuilder().BuildFromString(l);
+            Level.SetBackground(@"assets\Background\background1.jpg");
+            Level.SetWall(@"assets\Background\wall.png");
             
             Player = new Player(Level, () => { }, () => {BreakGlassPlayer.Play();});
             
@@ -89,7 +98,7 @@ namespace Game
                 
                 g.TranslateTransform(-Player.X + 300, 0);
 
-                for (int i = 0; i < 32; i++)
+                for (int i = 0; i < 128; i++)
                 {
                     for (int j = 0; j < 10; j++)
                     {
@@ -106,7 +115,24 @@ namespace Game
                 
                 foreach (var e in Level.Enemies)
                 {
-                    g.DrawImage(e.Side == Side.Left ? e.ImageLeft : e.ImageRight, e.X, e.Y);
+                    if (!e.IsDead)
+                    {
+                        if (e.IsFocused)
+                        {
+                            g.DrawImage(e.Side == Side.Left
+                                ? e.ImageLeftFocused
+                                : e.ImageRightFocused, e.X, e.Y);
+                        }
+                        else
+                        {
+                            g.DrawImage(e.Side == Side.Left 
+                                ? e.ImageLeft 
+                                : e.ImageRight, e.X, e.Y);
+                        }
+                        
+                        g.DrawLine(hpPen, 
+                            e.x, e.y - 7, e.x + e.Width / 5 * e.health, e.y - 7);
+                    }
                 }
                 
                 //g.TranslateTransform(Player.X + 300, 0);
@@ -116,7 +142,7 @@ namespace Game
                 
                 g.TranslateTransform(Player.X - 300, 0);
 
-                for (int i = 0; i < Player.Health; i++)
+                for (var i = 0; i < Player.Health; i++)
                 {
                     g.DrawImage(bottle, 20 + 40 * i, 20);
                 }
@@ -205,12 +231,19 @@ namespace Game
 
             //ChangeBackground(@"assets\a.png");
             
-            MediaPlayer.Open(new Uri(@"assets\game.mp3", UriKind.Relative));
+            MediaPlayer.Open(new Uri(@"assets\Audio\game.mp3", UriKind.Relative));
             MediaPlayer.Play();
             
             InvalidationTimer.Start();
             ActionTimer.Start();
             EnemiesActionTimer.Start();
+            
+            Player.Fall().Start();
+
+            foreach (var e in Level.Enemies)
+            {
+                e.Fall().Start();
+            }
         }
 
         public void Pause()

@@ -2,7 +2,7 @@
 
 namespace Game
 {
-    public class Level : ILevel
+    public class Level
     {
         public Image Background { get; private set; }
         public Image Wall { get; private set; }

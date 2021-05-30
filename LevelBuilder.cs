@@ -24,14 +24,14 @@ namespace Game
         {
             var level = new Level();
             
-            var dungeon = new LevelCell[32, 10];
+            var dungeon = new LevelCell[128, 10];
             var enemies = new List<Enemy>();
             //var initialPosition = Point.Empty;
             //var exit = Point.Empty;
             //var chests = new List<Point>();
             for (var y = 0; y < 10; y++)
             {
-                for (var x = 0; x < 32; x++)
+                for (var x = 0; x < 128; x++)
                 {
                     var type = (Cells) lines[y][x];
                     if (type == Cells.Enemy)
@@ -74,7 +74,8 @@ namespace Game
 
             sb.Append(new string(' ', 19));
             sb.Append('E');
-            sb.Append(new string(' ', 12) + '\n');
+            sb.Append('E');
+            sb.Append(new string(' ', 11) + '\n');
 
             for (int i = 0; i < 3; i++)
             {

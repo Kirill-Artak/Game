@@ -11,7 +11,7 @@ namespace Game
         [Test]
         public void MoveManyTimes()
         {
-            var player = new Player(new TestLevel(-10, 10, -10));
+            var player = new Player();
             
             player.MoveRight();
             

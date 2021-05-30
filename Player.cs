@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NUnit.Framework;
 
 namespace Game
 {
@@ -18,10 +20,14 @@ namespace Game
         public Side Side => (Side) side;
         public int Line => (y + Height / 2) / 72;
         public IWeapon Weapon { get; private set; }
-        public ILevel Level { get; }
+        public Level Level { get; }
 
         public bool IsFalling { get; private set; }
         public bool IsJumping { get; private set; }
+
+        public bool IsDamage { get; private set; }
+
+        public bool CanAttack { get; set; }
         
         public int Height { get; }
         public int Width { get; }
@@ -34,17 +40,21 @@ namespace Game
         private int y;
         private int side = 1;
 
+        public Enemy FocusedEnemy { get; private set; }
+
+        private HashSet<Enemy> focusedEnemies = new HashSet<Enemy>();
+
         
 
-        public Player(ILevel level = null, Action onDeathAction = null, Action onDamage = null)
+        public Player(Level level = null, Action onDeathAction = null, Action onDamage = null)
         {
-            ImageRight = System.Drawing.Image.FromFile(@"assets\playerSource.bmp");
+            ImageRight = System.Drawing.Image.FromFile(@"assets\Player\player.png");
             ImageLeft = (Image) ImageRight.Clone();
             
             ImageLeft.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
-            Height = 72;
-            Width = 38;
+            Height = 54; //72
+            Width = 28;  //38
             
             Level = level;
             this.onDeathAction = () => MessageBox.Show("1");
@@ -91,7 +101,7 @@ namespace Game
             IsJumping = true;
             
             var force = 25;
-            while (force > 0)
+            while (Level.Check(x, y, true) && Level.Check(x + Width, y, true) && force > 0)
             {
                 Interlocked.Add(ref y, -force);
                 force -= 1;
@@ -106,8 +116,8 @@ namespace Game
             if (IsFalling) return;
             
             var force = 13;
-            while (Level.Check(x + 10, y + Height, true) 
-                   && Level.Check(x + Width - 10, y + Height, true))
+            while (Level.Check(x, y + Height, true) 
+                   && Level.Check(x + Width, y + Height, true))
             {
                 IsFalling = true;
                 Interlocked.Add(ref y, 10);
@@ -132,7 +142,45 @@ namespace Game
                 onDeathAction();
         });
 
-        public void Damage() => Weapon.Use(Side);
+        public Task Damage() => new Task(() =>
+        {
+            if (!CanAttack) return;
+            if (FocusedEnemy == null) return;
+            if (FocusedEnemy.Distance(x) < Level.CellLength * 2)
+            {
+                IsDamage = true;
+
+                FocusedEnemy.GetDamage().Start();
+            
+                Thread.Sleep(750);
+                IsDamage = false;
+            }
+        });
+
+        public void Focus(Enemy enemy)
+        {
+            //focusedEnemies.Add(enemy);
+
+            //lock (enemy)
+            {
+                if (FocusedEnemy == null || FocusedEnemy.IsDead)
+                {
+                    enemy.IsFocused = true;
+                    CanAttack = true;
+                    FocusedEnemy = enemy;
+                }
+            }
+        }
+
+        public void Unfocus(Enemy enemy)
+        {
+            //focusedEnemies.Remove(enemy);
+            if (enemy != FocusedEnemy) return;
+            
+            enemy.IsFocused = false;
+            CanAttack = false;
+            FocusedEnemy = null;
+        }
 
         public void PickupBullet() => Weapon.PickupBullet();
 

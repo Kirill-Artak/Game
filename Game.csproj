@@ -62,7 +62,6 @@
         <Compile Include="Movement.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="ILevel.cs" />
         <Compile Include="IWeapon.cs" />
         <Compile Include="Player.cs" />
         <Compile Include="PlayerTests.cs" />
@@ -74,44 +73,40 @@
         <None Include="packages.config" />
     </ItemGroup>
     <ItemGroup>
-      <Content Include="assets\a.png">
+      <Content Include="assets\Audio\game.mp3">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="assets\background1.jpg">
+      <Content Include="assets\Audio\glass.wav">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="assets\bottle.png">
+      <Content Include="assets\Audio\menu.mp3">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="assets\enemy.bmp">
+      <Content Include="assets\Background\a.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="assets\glass.wav">
+      <Content Include="assets\Background\background1.jpg">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="assets\playerSource.bmp">
+      <Content Include="assets\Background\wall.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="assets\Enemies\Enemy.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="assets\Enemies\enemyFocused.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="assets\Player\player.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="assets\textures\bottle.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <Content Include="assets\textures\Platform.bmp">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="assets\textures\sky.bmp">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="assets\unknown.bmp">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="assets\wall.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
-    <ItemGroup>
-      <Content Include="assets\game.mp3">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="assets\menu.mp3">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+      <Content Include="Level1.txt" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

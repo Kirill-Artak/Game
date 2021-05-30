@@ -1,6 +1,6 @@
 ﻿namespace Game
 {
-    public class TestLevel : ILevel
+    public class TestLevel
     {
         public int LeftBorder { get; }
         public int RightBorder { get; }

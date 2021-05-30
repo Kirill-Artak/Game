@@ -9,8 +9,10 @@ namespace Game
         private bool right;
         private bool left;
         private bool jump;
+        private bool damage;
 
         private bool isSpacePressed;
+        private bool isEnterPressed;
 
         public MovingController(Player player)
         {
@@ -22,6 +24,7 @@ namespace Game
             right = false;
             left = false;
             jump = false;
+            damage = false;
         }
 
         public void AddMovement(Keys key)
@@ -40,6 +43,11 @@ namespace Game
                         jump = true;
                     isSpacePressed = true;
                     break;
+                case Keys.Enter:
+                    damage = !isEnterPressed;
+
+                    isEnterPressed = true;
+                    break;
             }
         }
 
@@ -56,6 +64,9 @@ namespace Game
                 case Keys.W:
                 case Keys.Space:
                     isSpacePressed = false;
+                    break;
+                case Keys.Enter:
+                    isEnterPressed = false;
                     break;
             }
         }
@@ -80,6 +91,12 @@ namespace Game
                 var task = Player.Jump();
                 task.Start();
                 task.ContinueWith(task1 => Player.Fall().Start());
+            }
+            if (damage && !Player.IsDamage)
+            {
+                damage = false;
+                var task = Player.Damage();
+                task.Start();
             }
         }
     }

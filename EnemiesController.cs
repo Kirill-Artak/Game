@@ -20,7 +20,12 @@ namespace Game
         {
             foreach (var e in Controllers)
             {
+                e.Focus().Start();
+                
+                if (e.Enemy.IsDead || e.Enemy.IsTriggered) continue;
+                
                 e.Move().Start();
+
             }
         }
 
@@ -39,5 +44,7 @@ namespace Game
                 e.IsPaused = false;
             }
         }
+
+        
     }
 }
