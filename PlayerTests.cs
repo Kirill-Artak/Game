@@ -15,7 +15,7 @@ namespace Game
         [SetUp]
         public void SetUp()
         {
-            Level = LevelBuilder.BuildFromFiles("Level1.txt")[0];
+            Level = LevelBuilder.BuildFromFiles("TestLevel.txt")[0];
             Player = new Player();
             Player.SetLevel(Level);
             Player.SetCoordinate(4000, 300);

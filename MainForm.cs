@@ -28,7 +28,9 @@ namespace Game
             BackgroundImage = backgroundImage;
             
             Size = new Size(1280, 720);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            
+            FormBorderStyle = FormBorderStyle.None;
+            
             KeyPreview = true;
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer 
