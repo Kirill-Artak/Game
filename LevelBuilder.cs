@@ -11,6 +11,23 @@ namespace Game
         public const int LevelHeight = 10;
         public const int LevelWidth = 32;
 
+        public int LevelCount { get; }
+
+        private string[] files;
+        private int currentLevel = -1;
+
+        public LevelBuilder(params string[] files)
+        {
+            this.files = files;
+            LevelCount = files.Length;
+        }
+
+        public Level BuildNext()
+        {
+            currentLevel++;
+            return BuildFromString(File.ReadAllText(files[currentLevel]));
+        }
+
         public static Level[] BuildFromFiles(params string[] files)
         {
             var result = new List<Level>();
@@ -37,9 +54,11 @@ namespace Game
 
         public static Level FromLines(string[] lines)
         {
-            var level = new Level();
+            var levelLength = int.Parse(lines[16]);
             
-            var dungeon = new LevelCell[128, 10];
+            var level = new Level();
+
+            var dungeon = new LevelCell[levelLength, 10];
             var enemies = new List<Enemy>();
             var items = new List<Item>();
 
@@ -51,7 +70,7 @@ namespace Game
 
             for (var y = 0; y < 10; y++)
             {
-                for (var x = 0; x < 128; x++)
+                for (var x = 0; x < levelLength; x++)
                 {
                     var type = (Cells) lines[y][x];
                     if (type == Cells.Enemy)
@@ -72,6 +91,8 @@ namespace Game
             level.IsBackgroundMoving = lines[10][0] == 'a';
             level.IsOutdoor = lines[10][1] == 'a';
             level.HasWall = lines[10][2] == 'a';
+
+            level.SetStart(lines[14]);
             
             level.AddMash(dungeon);
             level.AddEnemies(enemies.ToArray());
@@ -83,7 +104,7 @@ namespace Game
             if (level.HasWall)
                 level.SetWall(lines[12]);
             
-            level.AddAudio(lines[14]);
+            level.AddAudio(lines[15]);
             
             return level;
         }

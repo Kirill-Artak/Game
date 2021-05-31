@@ -20,9 +20,9 @@ namespace Game
         public int TotalBonus { get; private set; }
         
         public Player Player { get; }
-        public Level Level => Levels[currentLevel];
-        
-        public Level[] Levels { get; }
+        public Level Level { get; private set; }
+
+        public LevelBuilder LevelBuilder { get; }
 
         //
         public EnemiesController EnemiesController { get; private set; }
@@ -67,13 +67,14 @@ namespace Game
 
 
         private System.Drawing.Pen hpPen = new System.Drawing.Pen(Color.LightCoral, 5);
-        private Image EndBackground = Image.FromFile(@"assets\Background\end.jpg");
+        private Image EndBackground;
         private Font endFont = new Font("Arial", 18);
 
         public Engine(System.Windows.Forms.Timer timer, MediaPlayer mediaPlayer, 
             Action gameStopped, Action<string> changeBackground)
         {
-            Levels = LevelBuilder.BuildFromFiles(@"Level1.txt");
+            //Levels = LevelBuilder.BuildFromFiles(@"Level1.txt", @"Level2.txt");
+            LevelBuilder = new LevelBuilder(@"Level1.txt", @"Level2.txt");
             
             KeyPressed = OnPressKey;
             KeyUnpressed = OnUpKey;
@@ -110,7 +111,7 @@ namespace Game
             BreakGlassPlayer = new SoundPlayer();
             BreakGlassPlayer.SoundLocation = @"assets\Audio\glass.wav";
 
-            Player = new Player(Level,Restart, () => {BreakGlassPlayer.Play();});
+            Player = new Player(Restart, () => {BreakGlassPlayer.Play();});
 
             MediaPlayer = mediaPlayer;
             
@@ -129,7 +130,7 @@ namespace Game
                 }
                 
                 
-                if (!Level.IsOutdoor)
+                if (Level.IsOutdoor)
                 {
                     g.TranslateTransform(-Player.X * 0.25f, 0);
 
@@ -138,17 +139,20 @@ namespace Game
                     g.TranslateTransform(Player.X * 0.25f, 0);
                 }
 
-                
-                g.TranslateTransform(Level.IsBackgroundMoving ? -Player.X * 0.5f : -Player.X + 300, 0);
 
-                g.DrawImage(Level.Wall, 0, 300);
-                
-                g.TranslateTransform(Level.IsBackgroundMoving ? Player.X * 0.5f : Player.X - 300, 0);
+                if (Level.HasWall)
+                {
+                    g.TranslateTransform(Level.IsBackgroundMoving ? -Player.X * 0.5f : -Player.X + 300, 0);
+
+                    g.DrawImage(Level.Wall, 0, 300);
+
+                    g.TranslateTransform(Level.IsBackgroundMoving ? Player.X * 0.5f : Player.X - 300, 0);
+                }
                 
 
                 g.TranslateTransform(-Player.X + 300, 0);
 
-                for (int i = 0; i < 128; i++)
+                for (int i = 0; i < Level.LevelMash.GetLength(0); i++)
                 {
                     for (int j = 0; j < 10; j++)
                     {
@@ -198,7 +202,8 @@ namespace Game
                 
                 g.DrawImage(Player.Side == Side.Left ? Player.ImageLeft : Player.ImageRight, Player.X, Player.Y);
                 
-                g.DrawImage(Image.FromFile(@"assets\Background\ksk.png"), -100, 278);
+                g.DrawImage(Level.Start, -100, 278);
+
                 
                 g.DrawImage(Level.Border, -300, 0);
                 g.DrawImage(Level.Border, 9200, 0);
@@ -220,6 +225,9 @@ namespace Game
         
         public void StartGame()
         {
+            Level = LevelBuilder.BuildNext();
+            Player.SetLevel(Level);
+            
             EnemiesController = new EnemiesController(
                 Level.Enemies, 
                 Player, 
@@ -266,9 +274,11 @@ namespace Game
 
         private void NextLevel()
         {
-            //InvalidationTimer.Stop();
+            InvalidationTimer.Stop();
             ActionTimer.Stop();
             EnemiesActionTimer.Stop();
+            ItemTimer.Stop();
+            
             //st
             
             MediaPlayer.Stop();
@@ -277,8 +287,9 @@ namespace Game
 
             currentLevel++;
 
-            if (currentLevel + 1 > Levels.Length)
+            if (currentLevel + 1 > LevelBuilder.LevelCount)
             {
+                EndBackground = Image.FromFile(@"assets\Background\end.jpg");
                 isGameEnded = true;
                 MediaPlayer.Open(new Uri(@"assets\Audio\fin.mp3", UriKind.Relative));
                 MediaPlayer.Play();

@@ -73,13 +73,13 @@ namespace Game
 
         public void Move()
         {
-            if (right)
+            if (right && !Player.IsRight)
             {
                 var task = Player.MoveRight();
                 task.Start();
                 task.ContinueWith(task1 => Player.Fall().Start());
             }
-            if (left)
+            if (left && !Player.IsLeft)
             {
                 var task = Player.MoveLeft();
                 task.Start();

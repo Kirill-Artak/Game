@@ -10,8 +10,8 @@ namespace Game
         
         public Image Background { get; private set; }
         public Image Wall { get; private set; }
-        
         public Image Border { get; private set; }
+        public Image Start { get; private set; }
         public string Audio { get; private set; }
         
         public LevelCell[,] LevelMash { get; private set; }
@@ -71,6 +71,11 @@ namespace Game
         {
             EndGameX = x;
             EndGameY = y;
+        }
+
+        public void SetStart(string path)
+        {
+            Start = Image.FromFile(path);
         }
 
         public void AddBorder(string path)

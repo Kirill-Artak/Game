@@ -22,7 +22,6 @@ namespace Game
         private TableLayoutPanel MenuTable;
         private TableLayoutPanel SettingsTable;
         private TableLayoutPanel PauseTable;
-        private TableLayoutPanel FinalTable;
 
         public MainForm()
         {
@@ -119,6 +118,9 @@ namespace Game
         private void RunGame()
         {
             BackgroundImage = null;
+            backgroundImage = null;
+            MenuTable = null;
+            
             
 
             KeyDown += (o, e) => engine.KeyPressed.Invoke(o, e);

@@ -22,7 +22,7 @@ namespace Game
         public Side Side => (Side) side;
         public int Line => (y + Height / 2) / 72;
         public IWeapon Weapon { get; private set; }
-        public Level Level { get; }
+        public Level Level { get; private set; }
 
         public bool IsFalling { get; private set; }
         public bool IsJumping { get; private set; }
@@ -44,6 +44,9 @@ namespace Game
         private int x;
         private int y;
         private int side = 1;
+        
+        public bool IsRight { get; private set; }
+        public bool IsLeft { get; private set; }
 
         public Enemy FocusedEnemy { get; private set; }
 
@@ -51,7 +54,7 @@ namespace Game
 
         
 
-        public Player(Level level = null, Action onDeathAction = null, Action onDamage = null)
+        public Player(Action onDeathAction = null, Action onDamage = null)
         {
             ImageRight = System.Drawing.Image.FromFile(@"assets\Player\player.png");
             ImageLeft = (Image) ImageRight.Clone();
@@ -61,7 +64,6 @@ namespace Game
             Height = 54; //72
             Width = 28;  //38
             
-            Level = level;
             OnDeathAction = onDeathAction;
             this.onDamage = onDamage;
         }
@@ -72,8 +74,11 @@ namespace Game
             this.y = y;
         }
 
+        public void SetLevel(Level level) => Level = level;
+
         public Task MoveRight() => new Task(() =>
         {
+            IsRight = true;
             Interlocked.Exchange(ref side, 1);
             if (Level.Check(x + Width + 15, y + Height - 10, true) 
                 && Level.Check(x + Width + 15, y + 10, true))
@@ -83,10 +88,12 @@ namespace Game
                 Interlocked.Add(ref x, 4);
             //if (Level.CheckDown(x, y))
             //    Fall();
+            IsRight = false;
         });
 
         public Task MoveLeft() => new Task(() =>
         {
+            IsLeft = true;
             Interlocked.Exchange(ref side, -1);
             if (Level.Check(x - 15, y + 10, true) 
                 && Level.Check(x - 15, y + Height - 10, true))
@@ -96,6 +103,8 @@ namespace Game
                 Interlocked.Add(ref x, -4);
             //if (Level.CheckDown(x, y))
             //    Fall();
+
+            IsLeft = false;
         });
         
         public Task Jump() => new Task(() =>

@@ -5,13 +5,13 @@
                                                                                                                                 
                                                                                                                                 
                                                                                                                                 
-       BB  F      H          B                                                                                                  
+                  H          B                                                                                                  
 ################################################################################################################################
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-baa
-assets\Background\background1.jpg
-assets\Background\wall.png
+bab
+assets\Background\Kremlin.jpg
+assets\Background\k.png
 assets\Background\right.png
 assets\Background\ksk.png
-assets\Audio\game.mp3
+assets\Audio\moscow.mp3
 128
