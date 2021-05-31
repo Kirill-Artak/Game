@@ -21,6 +21,7 @@ namespace Game
             texDictionary.Add(Cells.Bonus, null);
             texDictionary.Add(Cells.Final, Image.FromFile(@"assets\textures\gnd.jpg"));
             texDictionary.Add(Cells.Conditioner, Image.FromFile(@"assets\textures\cond.png"));
+            texDictionary.Add(Cells.Platform, Image.FromFile(@"assets\textures\Platform.png"));
             
             var bonusDictionary = new Dictionary<ItemType, Image>();
             bonusDictionary.Add(ItemType.Health, Image.FromFile(@"assets\textures\bottle.png"));

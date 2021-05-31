@@ -136,6 +136,9 @@
       <Content Include="assets\textures\gnd2.jpg">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="assets\textures\Platform.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Include="Level1.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

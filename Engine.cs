@@ -158,7 +158,8 @@ namespace Game
                     {
                         if (Level.LevelMash[i, j].Type == Cells.Ground
                             || Level.LevelMash[i, j].Type == Cells.Ground2
-                            || Level.LevelMash[i, j].Type == Cells.Conditioner)
+                            || Level.LevelMash[i, j].Type == Cells.Conditioner
+                            || Level.LevelMash[i, j].Type == Cells.Platform)
                             g.DrawImage(Level.LevelMash[i, j].Texture, 72 * i, 72 * j);
                     }
                 }
@@ -274,7 +275,7 @@ namespace Game
 
         private void NextLevel()
         {
-            InvalidationTimer.Stop();
+            //InvalidationTimer.Stop();
             ActionTimer.Stop();
             EnemiesActionTimer.Stop();
             ItemTimer.Stop();

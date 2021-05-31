@@ -10,6 +10,7 @@
         Health = 'H',
         Bonus = 'B',
         Enemy = 'E',
-        Final = 'F'
+        Final = 'F',
+        Platform = 'P'
     }
 }

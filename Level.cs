@@ -98,6 +98,8 @@ namespace Game
                     result =  true;
                     break;
                 case Cells.Ground:
+                case Cells.Conditioner:
+                case Cells.Platform:
                     result =  false;
                     break;
                 default:
