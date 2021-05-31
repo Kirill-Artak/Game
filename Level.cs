@@ -89,17 +89,22 @@ namespace Game
 
             if (x <= 0 || x >= 8432)
                 return false;
+
+            if (y < 0) return true;
             
             switch (LevelMash[x / CellLength, y / CellLength].Type)
             {
                 case Cells.Space:
                 case Cells.Ammo:
                 case Cells.Health:
+                case Cells.Final:
                     result =  true;
                     break;
                 case Cells.Ground:
                 case Cells.Conditioner:
                 case Cells.Platform:
+                case Cells.Box:
+                case Cells.Brick:
                     result =  false;
                     break;
                 default:
@@ -107,7 +112,8 @@ namespace Game
                     break;
             }
 
-            if (!isPlayer && LevelMash[x / CellLength, y / CellLength + 1].Type == Cells.Space)
+            if (!isPlayer && (LevelMash[x / CellLength, y / CellLength + 1].Type == Cells.Space 
+                              || LevelMash[x / CellLength, y / CellLength + 1].Type == Cells.BBrick))
                 result = false;
 
             return result;

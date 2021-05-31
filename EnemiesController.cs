@@ -52,7 +52,5 @@ namespace Game
                 e.IsPaused = false;
             }
         }
-
-        
     }
 }

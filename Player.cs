@@ -208,7 +208,7 @@ namespace Game
             switch (type)
             {
                 case ItemType.Health:
-                    if (health <= 7)
+                    if (health <= 9)
                     {
                         Interlocked.Increment(ref health);
                         return true;
@@ -227,6 +227,7 @@ namespace Game
             health = 5;
             bonus = 0;
             IsDead = false;
+            FocusedEnemy = null;
         }
 
         private Task KnockBack(Side direction) => new Task(() =>

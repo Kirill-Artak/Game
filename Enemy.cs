@@ -130,6 +130,8 @@ namespace Game
             x = StartX;
             y = StartY;
             IsDead = false;
+            IsTriggered = false;
+            IsFocused = false;
             health = 5;
         }
     }

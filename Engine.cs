@@ -57,6 +57,7 @@ namespace Game
 
         private bool isPaused = false;
         private bool isGameEnded = false;
+        private bool isBonus = true;
 
         private int currentLevel = 0;
 
@@ -91,6 +92,7 @@ namespace Game
             {
                 if (Player.IsDead)
                 {
+                    isBonus = false;
                     PlayerDeathTimer.Stop();
                     Restart();
                 }
@@ -159,7 +161,11 @@ namespace Game
                         if (Level.LevelMash[i, j].Type == Cells.Ground
                             || Level.LevelMash[i, j].Type == Cells.Ground2
                             || Level.LevelMash[i, j].Type == Cells.Conditioner
-                            || Level.LevelMash[i, j].Type == Cells.Platform)
+                            || Level.LevelMash[i, j].Type == Cells.Platform
+                            || Level.LevelMash[i, j].Type == Cells.Box
+                            || Level.LevelMash[i, j].Type == Cells.Final
+                            || Level.LevelMash[i, j].Type == Cells.Brick
+                            || Level.LevelMash[i, j].Type == Cells.BBrick)
                             g.DrawImage(Level.LevelMash[i, j].Texture, 72 * i, 72 * j);
                     }
                 }
@@ -226,7 +232,7 @@ namespace Game
         
         public void StartGame()
         {
-            Level = LevelBuilder.BuildNext();
+            Level = LevelBuilder.Build(currentLevel);
             Player.SetLevel(Level);
             
             EnemiesController = new EnemiesController(
@@ -290,6 +296,7 @@ namespace Game
 
             if (currentLevel + 1 > LevelBuilder.LevelCount)
             {
+                if (isBonus) TotalBonus++;
                 EndBackground = Image.FromFile(@"assets\Background\end.jpg");
                 isGameEnded = true;
                 MediaPlayer.Open(new Uri(@"assets\Audio\fin.mp3", UriKind.Relative));

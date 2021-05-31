@@ -59,10 +59,12 @@ namespace Game
             );
 
             SettingsTable = MenuBuilder(
+                /*
                 CheckBoxBuilder(
                     "Полный экран", 
                     (s, e) =>
                     {
+                        
                         TopMost = true;
                         FormBorderStyle = ((CheckBox) s).Checked
                             ? FormBorderStyle.None
@@ -71,6 +73,7 @@ namespace Game
                             ? FormWindowState.Maximized
                             : FormWindowState.Normal;
                     }),
+                */
                 TrackBarBuilder("Громкость", (s, e) =>
                 {
                     mediaPlayer.Volume = ((TrackBar) s).Value / 100.0;

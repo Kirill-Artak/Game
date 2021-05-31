@@ -19,9 +19,12 @@ namespace Game
             texDictionary.Add(Cells.Enemy, null);
             texDictionary.Add(Cells.Health, null);
             texDictionary.Add(Cells.Bonus, null);
-            texDictionary.Add(Cells.Final, Image.FromFile(@"assets\textures\gnd.jpg"));
+            texDictionary.Add(Cells.Final, Image.FromFile(@"assets\textures\door.png"));
             texDictionary.Add(Cells.Conditioner, Image.FromFile(@"assets\textures\cond.png"));
             texDictionary.Add(Cells.Platform, Image.FromFile(@"assets\textures\Platform.png"));
+            texDictionary.Add(Cells.Box, Image.FromFile(@"assets\textures\box.jpg"));
+            texDictionary.Add(Cells.Brick, Image.FromFile(@"assets\textures\Brick.png"));
+            texDictionary.Add(Cells.BBrick, Image.FromFile(@"assets\textures\BBrick.png"));
             
             var bonusDictionary = new Dictionary<ItemType, Image>();
             bonusDictionary.Add(ItemType.Health, Image.FromFile(@"assets\textures\bottle.png"));

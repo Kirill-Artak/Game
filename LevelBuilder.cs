@@ -14,7 +14,6 @@ namespace Game
         public int LevelCount { get; }
 
         private string[] files;
-        private int currentLevel = -1;
 
         public LevelBuilder(params string[] files)
         {
@@ -22,10 +21,9 @@ namespace Game
             LevelCount = files.Length;
         }
 
-        public Level BuildNext()
+        public Level Build(int number)
         {
-            currentLevel++;
-            return BuildFromString(File.ReadAllText(files[currentLevel]));
+            return BuildFromString(File.ReadAllText(files[number]));
         }
 
         public static Level[] BuildFromFiles(params string[] files)

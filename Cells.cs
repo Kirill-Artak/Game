@@ -11,6 +11,9 @@
         Bonus = 'B',
         Enemy = 'E',
         Final = 'F',
-        Platform = 'P'
+        Platform = 'P',
+        Box = 'O',
+        Brick = 'R',
+        BBrick = 'r'
     }
 }
